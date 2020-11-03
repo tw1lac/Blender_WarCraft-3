@@ -17,7 +17,7 @@ else:
     from .classes import classes
     from . import constants
     from .importer import importer
-    from .parser import parser
+    from .parser import parse_mdx
     from . import utils
     try:
         importlib.reload(operators)
@@ -28,7 +28,7 @@ else:
         importlib.reload(classes)
         importlib.reload(constants)
         importlib.reload(importer)
-        importlib.reload(parser)
+        importlib.reload(parse_mdx)
         importlib.reload(utils)
     except:
         print("colud not reload module")
