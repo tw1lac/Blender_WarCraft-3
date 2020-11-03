@@ -1,5 +1,20 @@
 
 import bpy
+
+import io_scene_warcraft_3.classes.WarCraft3Attachment
+import io_scene_warcraft_3.classes.WarCraft3Bone
+import io_scene_warcraft_3.classes.WarCraft3CollisionShape
+import io_scene_warcraft_3.classes.WarCraft3Event
+import io_scene_warcraft_3.classes.WarCraft3GeosetAnimation
+import io_scene_warcraft_3.classes.WarCraft3GeosetTransformation
+import io_scene_warcraft_3.classes.WarCraft3Helper
+import io_scene_warcraft_3.classes.WarCraft3Layer
+import io_scene_warcraft_3.classes.WarCraft3Material
+import io_scene_warcraft_3.classes.WarCraft3Mesh
+import io_scene_warcraft_3.classes.WarCraft3Model
+import io_scene_warcraft_3.classes.WarCraft3Node
+import io_scene_warcraft_3.classes.WarCraft3Sequence
+import io_scene_warcraft_3.classes.WarCraft3Texture
 from io_scene_warcraft_3.classes import classes
 from io_scene_warcraft_3 import constants
 from io_scene_warcraft_3.importer import importer
@@ -17,7 +32,7 @@ def parse_model(data, model):
 
 
 def parse_material_alpha(r):
-    alpha = classes.WarCraft3GeosetTransformation()
+    alpha = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     alpha.tracks_count = r.getf('<I')[0]
     alpha.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -33,7 +48,7 @@ def parse_material_alpha(r):
 
 
 def parse_material_texture_id(r):
-    textureId = classes.WarCraft3GeosetTransformation()
+    textureId = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     textureId.tracks_count = r.getf('<I')[0]
     textureId.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -53,7 +68,7 @@ def parse_layers(data):
     layersCount = r.getf('<I')[0]
     layers = []
     for _ in range(layersCount):
-        layer = classes.WarCraft3Layer()
+        layer = io_scene_warcraft_3.classes.WarCraft3Layer.WarCraft3Layer()
         inclusiveSize = r.offset + r.getf('<I')[0]
         filterMode = r.getf('<I')[0]
         shadingFlags = r.getf('<I')[0]
@@ -75,7 +90,7 @@ def parse_materials(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
-        material = classes.WarCraft3Material()
+        material = io_scene_warcraft_3.classes.WarCraft3Material.WarCraft3Material()
         inclusiveSize = r.getf('<I')[0]
         priorityPlane = r.getf('<I')[0]
         flags = r.getf('<I')[0]
@@ -94,7 +109,7 @@ def parse_textures(data, model):
         raise Exception('bad Texture data (size % 268 != 0)')
     texturesCount = dataSize // 268
     for _ in range(texturesCount):
-        texture = classes.WarCraft3Texture()
+        texture = io_scene_warcraft_3.classes.WarCraft3Texture.WarCraft3Texture()
         texture.replaceable_id = r.getf('<I')[0]
         texture.image_file_name = r.gets(260)
         flags = r.getf('<I')[0]
@@ -102,7 +117,7 @@ def parse_textures(data, model):
 
 
 def parse_geoset_scaling(r):
-    scaling = classes.WarCraft3GeosetTransformation()
+    scaling = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     scaling.tracks_count = r.getf('<I')[0]
     scaling.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -118,7 +133,7 @@ def parse_geoset_scaling(r):
 
 
 def parse_geoset_rotation(r):
-    rotation = classes.WarCraft3GeosetTransformation()
+    rotation = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     rotation.tracks_count = r.getf('<I')[0]
     rotation.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -135,7 +150,7 @@ def parse_geoset_rotation(r):
 
 
 def parse_geoset_translation(r):
-    translation = classes.WarCraft3GeosetTransformation()
+    translation = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     translation.tracks_count = r.getf('<I')[0]
     translation.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -151,7 +166,7 @@ def parse_geoset_translation(r):
 
 
 def parse_node(r):
-    node = classes.WarCraft3Node()
+    node = io_scene_warcraft_3.classes.WarCraft3Node.WarCraft3Node()
     inclusiveSize = r.offset + r.getf('<I')[0]
     node.name = r.gets(80)
     node.id = r.getf('<I')[0]
@@ -174,7 +189,7 @@ def parse_bones(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
-        bone = classes.WarCraft3Bone()
+        bone = io_scene_warcraft_3.classes.WarCraft3Bone.WarCraft3Bone()
         bone.node = parse_node(r)
         bone.geoset_id = r.getf('<I')[0]
         geosetAnimationId = r.getf('<I')[0]
@@ -201,7 +216,7 @@ def get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices):
 
 def parse_geometry(data):
     r = binary.Reader(data)
-    mesh = classes.WarCraft3Mesh()
+    mesh = io_scene_warcraft_3.classes.WarCraft3Mesh.WarCraft3Mesh()
     mesh.name = 'temp'
     ############################################################################
     chunkId = r.getid(constants.CHUNK_VERTEX_POSITION)
@@ -303,7 +318,7 @@ def parse_geosets(data, model):
 
 def parse_attachment_visibility(r):
     chunkId = r.getid(constants.CHUNK_ATTACHMENT_VISIBILITY)
-    visibility = classes.WarCraft3GeosetTransformation()
+    visibility = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     visibility.tracks_count = r.getf('<I')[0]
     visibility.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -320,7 +335,7 @@ def parse_attachment_visibility(r):
 def parse_attachment(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
-    attachment = classes.WarCraft3Attachment()
+    attachment = io_scene_warcraft_3.classes.WarCraft3Attachment.WarCraft3Attachment()
     attachment.node = parse_node(r)
     path = r.gets(260)
     attachmentId = r.getf('<I')[0]
@@ -344,7 +359,7 @@ def parse_helpers(data, model):
     dataSize = len(data)
     r = binary.Reader(data)
     while r.offset < dataSize:
-        helper = classes.WarCraft3Helper()
+        helper = io_scene_warcraft_3.classes.WarCraft3Helper.WarCraft3Helper()
         helper.node = parse_node(r)
         model.nodes.append(helper)
 
@@ -370,7 +385,7 @@ def parse_events(data, model):
     dataSize = len(data)
     r = binary.Reader(data)
     while r.offset < dataSize:
-        event = classes.WarCraft3Event()
+        event = io_scene_warcraft_3.classes.WarCraft3Event.WarCraft3Event()
         event.node = parse_node(r)
         if r.offset < dataSize:
             chunkId = r.gets(4)
@@ -385,7 +400,7 @@ def parse_collision_shapes(data, model):
     dataSize = len(data)
     r = binary.Reader(data)
     while r.offset < dataSize:
-        collisionShape = classes.WarCraft3CollisionShape()
+        collisionShape = io_scene_warcraft_3.classes.WarCraft3CollisionShape.WarCraft3CollisionShape()
         collisionShape.node = parse_node(r)
         type = r.getf('<I')[0]
         if type == 0:
@@ -408,7 +423,7 @@ def parse_sequences(data, model):
         raise Exception('bad sequence data (size % 132 != 0)')
     sequenceCount = dataSize // 132
     for _ in range(sequenceCount):
-        sequence = classes.WarCraft3Sequence()
+        sequence = io_scene_warcraft_3.classes.WarCraft3Sequence.WarCraft3Sequence()
         sequence.name = r.gets(80)
         sequence.interval_start = r.getf('<I')[0]
         sequence.interval_end = r.getf('<I')[0]
@@ -423,7 +438,7 @@ def parse_sequences(data, model):
 
 
 def parse_geoset_color(r):
-    color = classes.WarCraft3GeosetTransformation()
+    color = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     color.tracks_count = r.getf('<I')[0]
     color.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -439,7 +454,7 @@ def parse_geoset_color(r):
 
 
 def parse_geoset_alpha(r):
-    alpha = classes.WarCraft3GeosetTransformation()
+    alpha = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
     alpha.tracks_count = r.getf('<I')[0]
     alpha.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]
@@ -458,7 +473,7 @@ def parse_geoset_animations(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
-        geosetAnimation = classes.WarCraft3GeosetAnimation()
+        geosetAnimation = io_scene_warcraft_3.classes.WarCraft3GeosetAnimation.WarCraft3GeosetAnimation()
         inclusiveSize = r.offset + r.getf('<I')[0]
         alpha = r.getf('<f')[0]
         flags = r.getf('<I')[0]
@@ -471,14 +486,14 @@ def parse_geoset_animations(data, model):
             elif chunkId == constants.CHUNK_GEOSET_ALPHA:
                 geosetAnimation.animation_alpha = parse_geoset_alpha(r)
         if not geosetAnimation.animation_color:
-            geosetColor = classes.WarCraft3GeosetTransformation()
+            geosetColor = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
             geosetColor.tracks_count = 1
             geosetColor.interpolation_type = constants.INTERPOLATION_TYPE_NONE
             geosetColor.times = [0, ]
             geosetColor.values = [color, ]
             geosetAnimation.animation_color = geosetColor
         if not geosetAnimation.animation_alpha:
-            geosetAlpha = classes.WarCraft3GeosetTransformation()
+            geosetAlpha = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
             geosetAlpha.tracks_count = 1
             geosetAlpha.interpolation_type = constants.INTERPOLATION_TYPE_NONE
             geosetAlpha.times = [0, ]
@@ -498,7 +513,7 @@ def parse_mdx(data, importProperties):
     dataSize = len(data)
     r = binary.Reader(data)
     r.getid(constants.CHUNK_MDX_MODEL)
-    model = classes.WarCraft3Model()
+    model = io_scene_warcraft_3.classes.WarCraft3Model.WarCraft3Model()
     while r.offset < dataSize:
         chunkId = r.getid(constants.SUB_CHUNKS_MDX_MODEL, debug=True)
         chunkSize = r.getf('<I')[0]
