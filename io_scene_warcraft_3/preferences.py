@@ -2,8 +2,7 @@ import bpy
 
 
 class WarCraft3Preferences(bpy.types.AddonPreferences):
-    bl_idname = 'warcraft_3.import_mdx'
-    # bl_idname = 'io_scene_warcraft_3'
+    bl_idname = 'io_scene_warcraft_3'
     resourceFolder: bpy.props.StringProperty(
         name='Resource',
         default='',

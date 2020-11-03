@@ -4,20 +4,21 @@ from io_scene_warcraft_3 import constants
 
 
 def create_mesh_objects(model, setTeamColor):
-    preferences = bpy.context.preferences.addons.get('warcraft_3.import_mdx') #['io_scene_warcraft_3'].preferences
+    # preferences = bpy.context.preferences.addons.get('io_scene_warcraft_3') #['io_scene_warcraft_3'].preferences
+    preferences = bpy.context.preferences.addons.get('io_scene_warcraft_3').preferences
     resourceFolder = ''
     alternativeResourceFolder = ''
     try:
         resourceFolder = preferences.resourceFolder
         alternativeResourceFolder = preferences.alternativeResourceFolder
     except:
-        print("No resource folder added")
+        print("No resource folder set in addon preferences")
 
     textureExc = 'png'
     try:
         textureExc = preferences.textureExtension
     except:
-        print("No resource folder added")
+        print("No file extention set in addon preferences")
 
     if textureExc[0] != '.':
         textureExc = '.' + textureExc
@@ -35,8 +36,10 @@ def create_mesh_objects(model, setTeamColor):
         imageFileExt = imageFile.split('\\')[-1].split('.')[-1]
         if imageFileExt == 'blp':
             bpyImage.filepath = alternativeResourceFolder + imageFile.split('.')[0] + textureExc
+            print("alt folder\n", alternativeResourceFolder + imageFile.split('.')[0] + textureExc)
         else:
             bpyImage.filepath = resourceFolder + imageFile
+            print("main folder\n", resourceFolder + imageFile)
         bpyImages.append(bpyImage)
     bpyMaterials = []
     for material in model.materials:
