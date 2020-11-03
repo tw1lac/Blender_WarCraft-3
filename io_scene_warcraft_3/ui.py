@@ -27,8 +27,8 @@ class WarCraft3PanelArmature(bpy.types.Panel):
             rows=2
             )
         col = row.column(align=True)
-        col.operator('warcraft_3.add_sequence_to_armature', icon='ZOOMIN', text='')
-        col.operator('warcraft_3.remove_sequence_to_armature', icon='ZOOMOUT', text='')
+        col.operator('warcraft_3.add_sequence_to_armature', icon='ADD', text='')
+        col.operator('warcraft_3.remove_sequence_to_armature', icon='REMOVE', text='')
 
 
 class WarCraft3PanelBone(bpy.types.Panel):

@@ -89,9 +89,9 @@ def create_armature_actions(armatureObject, model, frameTime):
                             rotationFcurveZ = action.fcurves.new(dataPath + '.rotation_euler', index=2, action_group=boneName)
                         realTime = round((time - intervalStart) / frameTime, 0)
                         euler = mathutils.Quaternion(mathutils.Vector(rotation)).to_euler('XYZ')
-                        rotationXKeyframe = rotationFcurveX.keyframe_points.insert(realTime, euler[0])
-                        rotationYKeyframe = rotationFcurveY.keyframe_points.insert(realTime, euler[1])
-                        rotationZKeyframe = rotationFcurveZ.keyframe_points.insert(realTime, euler[2])
+                        rotationXKeyframe = rotationFcurveX.keyframe_points.insert(realTime, euler.x)
+                        rotationYKeyframe = rotationFcurveY.keyframe_points.insert(realTime, euler.y)
+                        rotationZKeyframe = rotationFcurveZ.keyframe_points.insert(realTime, euler.z)
                         rotationXKeyframe.interpolation = interpolationType
                         rotationYKeyframe.interpolation = interpolationType
                         rotationZKeyframe.interpolation = interpolationType
