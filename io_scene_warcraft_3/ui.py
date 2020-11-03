@@ -15,7 +15,7 @@ class WarCraft3PanelArmature(bpy.types.Panel):
     def draw(self, context):
         warcraft3data = context.armature.warcraft_3
         layout = self.layout
-        layout.label('Animations:')
+        layout.label(text='Animations:')
         row = layout.row()
         row.template_list(
             listtype_name='UI_UL_list',
