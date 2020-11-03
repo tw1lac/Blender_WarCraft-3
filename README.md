@@ -4,4 +4,4 @@ install by dropping the "io_scene_warcraft_3" folder in C:\Users\YOU_USER\AppDat
 
 
 
-* I have only tested it with 2.83.4, and it kinda worked with an unit exported with Retera's Model Studio, but failed miserably with an model downloaded from HiveWorkshop.
+\* I have only tested it with 2.83.4, and it kinda worked with an unit exported with Retera's Model Studio, but failed miserably with an model downloaded from HiveWorkshop.
