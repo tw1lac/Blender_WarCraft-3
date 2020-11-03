@@ -1,7 +1,7 @@
 
 import bpy
 import mathutils
-from . import constants
+from io_scene_warcraft_3 import constants
 
 
 def load_warcraft_3_model(model, importProperties):

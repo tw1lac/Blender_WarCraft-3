@@ -2,7 +2,7 @@
 import bpy
 from . import classes
 from . import constants
-from . import parser
+from .pareser import parser
 from . import utils
 from bpy_extras import io_utils
 

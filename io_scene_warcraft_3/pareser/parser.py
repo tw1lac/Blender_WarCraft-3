@@ -1,9 +1,9 @@
 
 import bpy
-from . import classes
-from . import constants
-from . import importer
-from . import binary
+from io_scene_warcraft_3 import classes
+from io_scene_warcraft_3 import constants
+from io_scene_warcraft_3 import importer
+from io_scene_warcraft_3 import binary
 
 
 def parse_model(data, model):
