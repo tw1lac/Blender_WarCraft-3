@@ -2,6 +2,7 @@
 import bpy
 
 import io_scene_warcraft_3.classes.MDXImportProperties
+import io_scene_warcraft_3.parser.load_mdx
 from .classes import classes
 from . import constants
 from .parser import parser
@@ -71,7 +72,7 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
         importProperties.use_custom_fps = self.useCustomFPS
         importProperties.fps = self.animationFPS
         importProperties.calculate_frame_time()
-        parser.load_mdx(importProperties)
+        io_scene_warcraft_3.parser.load_mdx.load_mdx(importProperties)
         return {'FINISHED'}
 
     def invoke(self, context, event):
