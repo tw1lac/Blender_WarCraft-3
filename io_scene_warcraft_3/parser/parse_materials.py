@@ -1,4 +1,4 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3Material import WarCraft3Material
 from io_scene_warcraft_3 import binary
 from io_scene_warcraft_3.parser.parse_layers import parse_layers
 
@@ -7,7 +7,7 @@ def parse_materials(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
-        material = io_scene_warcraft_3.classes.WarCraft3Material.WarCraft3Material()
+        material = WarCraft3Material()
         inclusiveSize = r.getf('<I')[0]
         priorityPlane = r.getf('<I')[0]
         flags = r.getf('<I')[0]

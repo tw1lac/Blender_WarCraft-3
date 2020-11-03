@@ -5,11 +5,13 @@ def create_armature_object(model, bpyObjects, boneSize):
     nodes = model.nodes
     pivotPoints = model.pivot_points
     bpyArmature = bpy.data.armatures.new(model.name + ' Nodes')
-    bpyArmature.draw_type = 'STICK'
+    bpyArmature.display_type = 'STICK'
     bpyObject = bpy.data.objects.new(model.name + ' Nodes', bpyArmature)
-    bpyObject.show_x_ray = True
-    bpy.context.scene.objects.link(bpyObject)
-    bpy.context.scene.objects.active = bpyObject
+    bpyObject.show_in_front = True
+    bpy.context.scene.collection.objects.link(bpyObject)
+    bpyObject.select_set(True)
+    bpy.context.view_layer.objects.active = bpyObject
+    # bpy.context.scene.objects.active = bpyObject
     bpy.ops.object.mode_set(mode='EDIT')
     nodeTypes = set()
     boneTypes = {}
@@ -59,5 +61,5 @@ def create_armature_object(model, bpyObjects, boneSize):
     for bone in bpyObject.data.bones:
         bone.warcraft_3.nodeType = boneTypes[bone.name].upper()
     bpy.ops.object.mode_set(mode='OBJECT')
-    bpy.context.scene.objects.active = None
+    bpy.context.active_object.select_set(False)
     return bpyObject

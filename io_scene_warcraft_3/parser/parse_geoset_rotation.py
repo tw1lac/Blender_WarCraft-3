@@ -1,9 +1,9 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import constants
 
 
 def parse_geoset_rotation(r):
-    rotation = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+    rotation = WarCraft3GeosetTransformation()
     rotation.tracks_count = r.getf('<I')[0]
     rotation.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]

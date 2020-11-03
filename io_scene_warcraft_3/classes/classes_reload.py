@@ -1,4 +1,4 @@
-if "parse_attachments" not in locals():
+if "MDXImportProperties" in locals():
     print("reload classes")
     import importlib
     from io_scene_warcraft_3.classes import (

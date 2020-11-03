@@ -1,4 +1,5 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3GeosetAnimation import WarCraft3GeosetAnimation
+from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import binary, constants
 from io_scene_warcraft_3.parser.parse_geoset_alpha import parse_geoset_alpha
 from io_scene_warcraft_3.parser.parse_geoset_color import parse_geoset_color
@@ -8,7 +9,7 @@ def parse_geoset_animations(data, model):
     r = binary.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
-        geosetAnimation = io_scene_warcraft_3.classes.WarCraft3GeosetAnimation.WarCraft3GeosetAnimation()
+        geosetAnimation = WarCraft3GeosetAnimation()
         inclusiveSize = r.offset + r.getf('<I')[0]
         alpha = r.getf('<f')[0]
         flags = r.getf('<I')[0]
@@ -21,14 +22,14 @@ def parse_geoset_animations(data, model):
             elif chunkId == constants.CHUNK_GEOSET_ALPHA:
                 geosetAnimation.animation_alpha = parse_geoset_alpha(r)
         if not geosetAnimation.animation_color:
-            geosetColor = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+            geosetColor = WarCraft3GeosetTransformation()
             geosetColor.tracks_count = 1
             geosetColor.interpolation_type = constants.INTERPOLATION_TYPE_NONE
             geosetColor.times = [0, ]
             geosetColor.values = [color, ]
             geosetAnimation.animation_color = geosetColor
         if not geosetAnimation.animation_alpha:
-            geosetAlpha = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+            geosetAlpha = WarCraft3GeosetTransformation()
             geosetAlpha.tracks_count = 1
             geosetAlpha.interpolation_type = constants.INTERPOLATION_TYPE_NONE
             geosetAlpha.times = [0, ]

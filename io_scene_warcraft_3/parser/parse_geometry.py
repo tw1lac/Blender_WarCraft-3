@@ -1,11 +1,11 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3Mesh import WarCraft3Mesh
 from io_scene_warcraft_3 import binary, constants
 from io_scene_warcraft_3.parser.get_vertex_groups import get_vertex_groups
 
 
 def parse_geometry(data):
     r = binary.Reader(data)
-    mesh = io_scene_warcraft_3.classes.WarCraft3Mesh.WarCraft3Mesh()
+    mesh = WarCraft3Mesh()
     mesh.name = 'temp'
     ############################################################################
     chunkId = r.getid(constants.CHUNK_VERTEX_POSITION)

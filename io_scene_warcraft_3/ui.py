@@ -1,8 +1,8 @@
-
 import bpy
 
 
 class WarCraft3PanelArmature(bpy.types.Panel):
+    bl_idname = 'WC3_PT_armature_panel'
     bl_label = 'WarCraft 3'
     bl_space_type = 'PROPERTIES'
     bl_region_type = 'WINDOW'
@@ -32,6 +32,7 @@ class WarCraft3PanelArmature(bpy.types.Panel):
 
 
 class WarCraft3PanelBone(bpy.types.Panel):
+    bl_idname = 'WC3_PT_bone_panel'
     bl_label = 'WarCraft 3'
     bl_space_type = 'PROPERTIES'
     bl_region_type = 'WINDOW'

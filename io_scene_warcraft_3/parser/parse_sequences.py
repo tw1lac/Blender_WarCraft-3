@@ -1,4 +1,4 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3Sequence import WarCraft3Sequence
 from io_scene_warcraft_3 import binary
 
 
@@ -9,7 +9,7 @@ def parse_sequences(data, model):
         raise Exception('bad sequence data (size % 132 != 0)')
     sequenceCount = dataSize // 132
     for _ in range(sequenceCount):
-        sequence = io_scene_warcraft_3.classes.WarCraft3Sequence.WarCraft3Sequence()
+        sequence = WarCraft3Sequence()
         sequence.name = r.gets(80)
         sequence.interval_start = r.getf('<I')[0]
         sequence.interval_end = r.getf('<I')[0]

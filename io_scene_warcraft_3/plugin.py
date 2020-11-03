@@ -14,10 +14,10 @@ else:
     from . import preferences
     from . import types
     from . import binary
-    from .classes import classes
+    from .classes import classes_reload
     from . import constants
-    from .importer import importer
-    from .parser import parse_mdx
+    from .importer import importer_reload
+    from .parser import parser_reload
     from . import utils
     try:
         importlib.reload(operators)
@@ -25,17 +25,17 @@ else:
         importlib.reload(preferences)
         importlib.reload(types)
         importlib.reload(binary)
-        importlib.reload(classes)
+        importlib.reload(classes_reload)
         importlib.reload(constants)
-        importlib.reload(importer)
-        importlib.reload(parse_mdx)
+        importlib.reload(importer_reload)
+        importlib.reload(parser_reload)
         importlib.reload(utils)
     except:
         print("colud not reload module")
 
 
 def menu_import_mdx(self, context):
-    self.layout.operator(operators.WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdx)')
+    self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdx)')
 
 
 wc_classes = (
@@ -60,6 +60,7 @@ def register():
         bpy.utils.register_class(cls)
     WarCraft3ArmatureProperties.bpy_type.warcraft_3 = bpy.props.PointerProperty(type=WarCraft3ArmatureProperties)
     WarCraft3BoneProperties.bpy_type.warcraft_3 = bpy.props.PointerProperty(type=WarCraft3BoneProperties)
+
     for cls in wc_classes:
         bpy.utils.register_class(cls)
     bpy.types.TOPBAR_MT_file_import.append(menu_import_mdx)

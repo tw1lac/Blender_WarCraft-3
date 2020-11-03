@@ -1,9 +1,9 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import constants
 
 
 def parse_material_alpha(r):
-    alpha = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+    alpha = WarCraft3GeosetTransformation()
     alpha.tracks_count = r.getf('<I')[0]
     alpha.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]

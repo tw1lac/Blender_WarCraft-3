@@ -10,10 +10,10 @@ def create_object_actions(model, bpyObjects, frameTime):
     for geosetAnimation in geosetAnimations:
         geosetId = geosetAnimation.geoset_id
         action = bpy.data.actions.new(name='#UNANIMATED' + ' ' + bpyObjects[geosetId].name)
-        colorR = action.fcurves.new(dataPathColor, 0)
-        colorG = action.fcurves.new(dataPathColor, 1)
-        colorB = action.fcurves.new(dataPathColor, 2)
-        colorA = action.fcurves.new(dataPathColor, 3)
+        colorR = action.fcurves.new(dataPathColor, index=0)
+        colorG = action.fcurves.new(dataPathColor, index=1)
+        colorB = action.fcurves.new(dataPathColor, index=2)
+        colorA = action.fcurves.new(dataPathColor, index=3)
         colorR.keyframe_points.insert(0.0, 1.0)
         colorG.keyframe_points.insert(0.0, 1.0)
         colorB.keyframe_points.insert(0.0, 1.0)
@@ -36,11 +36,11 @@ def create_object_actions(model, bpyObjects, frameTime):
                 color = colorAnim.values[index]
                 if intervalStart <= time and time <= intervalEnd or time == 0:
                     if not colorR:
-                        colorR = action.fcurves.new(dataPathColor, 0)
+                        colorR = action.fcurves.new(dataPathColor, index=0)
                     if not colorG:
-                        colorG = action.fcurves.new(dataPathColor, 1)
+                        colorG = action.fcurves.new(dataPathColor, index=1)
                     if not colorB:
-                        colorB = action.fcurves.new(dataPathColor, 2)
+                        colorB = action.fcurves.new(dataPathColor, index=2)
                     if time == 0:
                         realTime = 0.0
                     else:
@@ -52,13 +52,13 @@ def create_object_actions(model, bpyObjects, frameTime):
                     colorGKeyframe.interpolation = interpolationType
                     colorBKeyframe.interpolation = interpolationType
             if not colorR:
-                colorR = action.fcurves.new(dataPathColor, 0)
+                colorR = action.fcurves.new(dataPathColor, index=0)
                 colorR.keyframe_points.insert(0, 1.0)
             if not colorG:
-                colorG = action.fcurves.new(dataPathColor, 1)
+                colorG = action.fcurves.new(dataPathColor, index=1)
                 colorG.keyframe_points.insert(0, 1.0)
             if not colorB:
-                colorB = action.fcurves.new(dataPathColor, 2)
+                colorB = action.fcurves.new(dataPathColor, index=2)
                 colorB.keyframe_points.insert(0, 1.0)
             interpolationType = constants.INTERPOLATION_TYPE_NAMES[alphaAnim.interpolation_type]
             for index in range(alphaAnim.tracks_count):
@@ -66,7 +66,7 @@ def create_object_actions(model, bpyObjects, frameTime):
                 alpha = alphaAnim.values[index]
                 if intervalStart <= time and time <= intervalEnd or time == 0:
                     if not colorA:
-                        colorA = action.fcurves.new(dataPathColor, 3)
+                        colorA = action.fcurves.new(dataPathColor, index=3)
                     if time == 0:
                         realTime = 0.0
                     else:
@@ -74,5 +74,5 @@ def create_object_actions(model, bpyObjects, frameTime):
                     colorAKeyframe = colorA.keyframe_points.insert(realTime, alpha)
                     colorAKeyframe.interpolation = interpolationType
             if not colorA:
-                colorA = action.fcurves.new(dataPathColor, 3)
+                colorA = action.fcurves.new(dataPathColor, index=3)
                 colorA.keyframe_points.insert(0, 1.0)

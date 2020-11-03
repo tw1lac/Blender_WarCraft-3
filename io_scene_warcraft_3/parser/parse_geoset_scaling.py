@@ -1,9 +1,9 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import constants
 
 
 def parse_geoset_scaling(r):
-    scaling = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+    scaling = WarCraft3GeosetTransformation()
     scaling.tracks_count = r.getf('<I')[0]
     scaling.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]

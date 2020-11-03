@@ -1,4 +1,4 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3CollisionShape import WarCraft3CollisionShape
 from io_scene_warcraft_3 import binary
 from io_scene_warcraft_3.parser.parse_node import parse_node
 
@@ -7,7 +7,7 @@ def parse_collision_shapes(data, model):
     dataSize = len(data)
     r = binary.Reader(data)
     while r.offset < dataSize:
-        collisionShape = io_scene_warcraft_3.classes.WarCraft3CollisionShape.WarCraft3CollisionShape()
+        collisionShape = WarCraft3CollisionShape()
         collisionShape.node = parse_node(r)
         type = r.getf('<I')[0]
         if type == 0:

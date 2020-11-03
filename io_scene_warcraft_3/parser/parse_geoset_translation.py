@@ -1,9 +1,9 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import constants
 
 
 def parse_geoset_translation(r):
-    translation = io_scene_warcraft_3.classes.WarCraft3GeosetTransformation.WarCraft3GeosetTransformation()
+    translation = WarCraft3GeosetTransformation()
     translation.tracks_count = r.getf('<I')[0]
     translation.interpolation_type = r.getf('<I')[0]
     globalSequenceId = r.getf('<I')[0]

@@ -1,4 +1,4 @@
-import io_scene_warcraft_3.classes
+from io_scene_warcraft_3.classes.WarCraft3Layer import WarCraft3Layer
 from io_scene_warcraft_3 import binary, constants
 from io_scene_warcraft_3.parser.parse_material_alpha import parse_material_alpha
 from io_scene_warcraft_3.parser.parse_material_texture_id import parse_material_texture_id
@@ -10,7 +10,7 @@ def parse_layers(data):
     layersCount = r.getf('<I')[0]
     layers = []
     for _ in range(layersCount):
-        layer = io_scene_warcraft_3.classes.WarCraft3Layer.WarCraft3Layer()
+        layer = WarCraft3Layer()
         inclusiveSize = r.offset + r.getf('<I')[0]
         filterMode = r.getf('<I')[0]
         shadingFlags = r.getf('<I')[0]
