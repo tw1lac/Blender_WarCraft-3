@@ -1,8 +1,8 @@
 
 import bpy
-from . import classes
+from .classes import classes
 from . import constants
-from .pareser import parser
+from .parser import parser
 from . import utils
 from bpy_extras import io_utils
 

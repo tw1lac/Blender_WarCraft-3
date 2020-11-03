@@ -1,8 +1,8 @@
 
 import bpy
-from io_scene_warcraft_3 import classes
+from io_scene_warcraft_3.classes import classes
 from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3 import importer
+from io_scene_warcraft_3.importer import importer
 from io_scene_warcraft_3 import binary
 
 
