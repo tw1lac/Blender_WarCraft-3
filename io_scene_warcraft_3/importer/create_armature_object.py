@@ -35,7 +35,7 @@ def create_armature_object(model, bpyObjects, boneSize):
         if node.node.parent:
             parent = bpyArmature.edit_bones[node.node.parent]
             bone.parent = parent
-            bone.use_connect = True
+            # bone.use_connect = True
 
     for mesh in bpyObjects:
         mesh.modifiers.new(name='Armature', type='ARMATURE')
