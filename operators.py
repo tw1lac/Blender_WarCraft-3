@@ -1,8 +1,8 @@
-import bpy
 
-from io_scene_warcraft_3.classes.MDXImportProperties import MDXImportProperties
-from io_scene_warcraft_3.parser.load_mdx import load_mdx
+import bpy
+from .classes import classes
 from . import constants
+from .parser import parser
 from . import utils
 from bpy_extras import io_utils
 
@@ -14,12 +14,12 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
     bl_options = {'UNDO'}
 
     filename_ext = '.mdx'
-    filter_glob: bpy.props.StringProperty(default='*.mdx', options={'HIDDEN'})
-    filepath: bpy.props.StringProperty(name='File Path', maxlen=1024, default='')
-    useCustomFPS: bpy.props.BoolProperty(name='Use Custom FPS', default=False)
-    animationFPS: bpy.props.FloatProperty(name='Animation FPS', default=30.0, min=1.0, max=1000.0)
-    boneSize: bpy.props.FloatProperty(name='Bone Size', default=5.0, min=0.0001, max=1000.0)
-    teamColor: bpy.props.FloatVectorProperty(
+    filter_glob = bpy.props.StringProperty(default='*.mdx', options={'HIDDEN'})
+    filepath = bpy.props.StringProperty(name='File Path', maxlen=1024, default='')
+    useCustomFPS = bpy.props.BoolProperty(name='Use Custom FPS', default=False)
+    animationFPS = bpy.props.FloatProperty(name='Animation FPS', default=30.0, min=1.0, max=1000.0)
+    boneSize = bpy.props.FloatProperty(name='Bone Size', default=5.0, min=0.0001, max=1000.0)
+    teamColor = bpy.props.FloatVectorProperty(
         name='Team Color',
         default=constants.TEAM_COLORS['RED'],
         min=0.0,
@@ -28,7 +28,7 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
         subtype='COLOR',
         precision=3
         )
-    setTeamColor: bpy.props.EnumProperty(
+    setTeamColor = bpy.props.EnumProperty(
         items=[
             ('RED', 'Red', ''),
             ('DARK_BLUE', 'Dark Blue', ''),
@@ -51,25 +51,25 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
 
     def draw(self, context):
         layout = self.layout
-        split = layout.split(factor=0.9)
-        subSplit = split.split(factor=0.5)
-        subSplit.label(text='Team Color:')
-        subSplit.prop(self, 'setTeamColor', text='')
-        split.prop(self, 'teamColor', text='')
-        layout.prop(self, 'boneSize')
-        layout.prop(self, 'useCustomFPS')
-        if self.useCustomFPS:
-            layout.prop(self, 'animationFPS')
+        split = layout.split(percentage=0.9)
+        subSplit = split.split(percentage=0.5)
+        subSplit.label('Team Color:')
+        subSplit.prop(self.properties, 'setTeamColor', text='')
+        split.prop(self.properties, 'teamColor', text='')
+        layout.prop(self.properties, 'boneSize')
+        layout.prop(self.properties, 'useCustomFPS')
+        if self.properties.useCustomFPS:
+            layout.prop(self.properties, 'animationFPS')
 
     def execute(self, context):
-        importProperties = MDXImportProperties()
-        importProperties.mdx_file_path = self.filepath
-        importProperties.set_team_color = self.setTeamColor
-        importProperties.bone_size = self.boneSize
-        importProperties.use_custom_fps = self.useCustomFPS
-        importProperties.fps = self.animationFPS
+        importProperties = classes.MDXImportProperties()
+        importProperties.mdx_file_path = self.properties.filepath
+        importProperties.set_team_color = self.properties.setTeamColor
+        importProperties.bone_size = self.properties.boneSize
+        importProperties.use_custom_fps = self.properties.useCustomFPS
+        importProperties.fps = self.properties.animationFPS
         importProperties.calculate_frame_time()
-        load_mdx(importProperties)
+        parser.load_mdx(importProperties)
         return {'FINISHED'}
 
     def invoke(self, context, event):
