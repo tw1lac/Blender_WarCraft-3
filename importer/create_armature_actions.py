@@ -12,24 +12,10 @@ def create_armature_actions(armatureObject, model, frameTime):
     for node in nodes:
         boneName = node.node.name
         dataPath = 'pose.bones["' + boneName + '"]'
-        locationFcurveX = action.fcurves.new(dataPath + '.location', 0, boneName)
-        locationFcurveY = action.fcurves.new(dataPath + '.location', 1, boneName)
-        locationFcurveZ = action.fcurves.new(dataPath + '.location', 2, boneName)
-        locationFcurveX.keyframe_points.insert(0.0, 0.0)
-        locationFcurveY.keyframe_points.insert(0.0, 0.0)
-        locationFcurveZ.keyframe_points.insert(0.0, 0.0)
-        rotationFcurveX = action.fcurves.new(dataPath + '.rotation_euler', 0, boneName)
-        rotationFcurveY = action.fcurves.new(dataPath + '.rotation_euler', 1, boneName)
-        rotationFcurveZ = action.fcurves.new(dataPath + '.rotation_euler', 2, boneName)
-        rotationFcurveX.keyframe_points.insert(0.0, 0.0)
-        rotationFcurveY.keyframe_points.insert(0.0, 0.0)
-        rotationFcurveZ.keyframe_points.insert(0.0, 0.0)
-        scaleFcurveX = action.fcurves.new(dataPath + '.scale', 0, boneName)
-        scaleFcurveY = action.fcurves.new(dataPath + '.scale', 1, boneName)
-        scaleFcurveZ = action.fcurves.new(dataPath + '.scale', 2, boneName)
-        scaleFcurveX.keyframe_points.insert(0.0, 1.0)
-        scaleFcurveY.keyframe_points.insert(0.0, 1.0)
-        scaleFcurveZ.keyframe_points.insert(0.0, 1.0)
+        new_fcurve(action, boneName, dataPath + '.location', 0.0)
+        new_fcurve(action, boneName, dataPath + '.rotation_euler', 0.0)
+        new_fcurve(action, boneName, dataPath + '.scale', 1.0)
+
     for sequence in sequences:
         intervalStart = sequence.interval_start
         intervalEnd = sequence.interval_end
@@ -41,6 +27,7 @@ def create_armature_actions(armatureObject, model, frameTime):
             translations = node.node.translations
             rotations = node.node.rotations
             scalings = node.node.scalings
+
             if translations:
                 locationFcurveX = None
                 locationFcurveY = None
@@ -50,28 +37,18 @@ def create_armature_actions(armatureObject, model, frameTime):
                     time = translations.times[index]
                     translation = translations.values[index]
                     if intervalStart <= time and time <= intervalEnd:
-                        if not locationFcurveX:
-                            locationFcurveX = action.fcurves.new(dataPath + '.location', 0, boneName)
-                        if not locationFcurveY:
-                            locationFcurveY = action.fcurves.new(dataPath + '.location', 1, boneName)
-                        if not locationFcurveZ:
-                            locationFcurveZ = action.fcurves.new(dataPath + '.location', 2, boneName)
+                        locationFcurveX, locationFcurveY, locationFcurveZ = set_new_curves(action, boneName,
+                                                                                           dataPath + '.location',
+                                                                                           locationFcurveX,
+                                                                                           locationFcurveY,
+                                                                                           locationFcurveZ)
                         realTime = round((time - intervalStart) / frameTime, 0)
-                        locationXKeyframe = locationFcurveX.keyframe_points.insert(realTime, translation[0])
-                        locationYKeyframe = locationFcurveY.keyframe_points.insert(realTime, translation[1])
-                        locationZKeyframe = locationFcurveZ.keyframe_points.insert(realTime, translation[2])
-                        locationXKeyframe.interpolation = interpolationType
-                        locationYKeyframe.interpolation = interpolationType
-                        locationZKeyframe.interpolation = interpolationType
-                if not locationFcurveX:
-                    locationFcurveX = action.fcurves.new(dataPath + '.location', 0, boneName)
-                    locationFcurveX.keyframe_points.insert(0.0, 0.0)
-                if not locationFcurveY:
-                    locationFcurveY = action.fcurves.new(dataPath + '.location', 1, boneName)
-                    locationFcurveY.keyframe_points.insert(0.0, 0.0)
-                if not locationFcurveZ:
-                    locationFcurveZ = action.fcurves.new(dataPath + '.location', 2, boneName)
-                    locationFcurveZ.keyframe_points.insert(0.0, 0.0)
+
+                        insert_xyz_keyframe_points(interpolationType, locationFcurveX, locationFcurveY, locationFcurveZ,
+                                                   realTime, translation)
+                set_new_curve_with_keyframe_points(action, boneName, dataPath + '.location',
+                                                   locationFcurveX, locationFcurveY, locationFcurveZ, 0.0)
+
             if rotations:
                 rotationFcurveX = None
                 rotationFcurveY = None
@@ -81,29 +58,20 @@ def create_armature_actions(armatureObject, model, frameTime):
                     time = rotations.times[index]
                     rotation = rotations.values[index]
                     if intervalStart <= time and time <= intervalEnd:
-                        if not rotationFcurveX:
-                            rotationFcurveX = action.fcurves.new(dataPath + '.rotation_euler', 0, boneName)
-                        if not rotationFcurveY:
-                            rotationFcurveY = action.fcurves.new(dataPath + '.rotation_euler', 1, boneName)
-                        if not rotationFcurveZ:
-                            rotationFcurveZ = action.fcurves.new(dataPath + '.rotation_euler', 2, boneName)
-                        realTime = round((time - intervalStart) / frameTime, 0)
+                        rotationFcurveX, rotationFcurveY, rotationFcurveZ = set_new_curves(action, boneName,
+                                                                                           dataPath + '.rotation_euler',
+                                                                                           rotationFcurveX,
+                                                                                           rotationFcurveY,
+                                                                                           rotationFcurveZ)
                         euler = mathutils.Quaternion(mathutils.Vector(rotation)).to_euler('XYZ')
-                        rotationXKeyframe = rotationFcurveX.keyframe_points.insert(realTime, euler[0])
-                        rotationYKeyframe = rotationFcurveY.keyframe_points.insert(realTime, euler[1])
-                        rotationZKeyframe = rotationFcurveZ.keyframe_points.insert(realTime, euler[2])
-                        rotationXKeyframe.interpolation = interpolationType
-                        rotationYKeyframe.interpolation = interpolationType
-                        rotationZKeyframe.interpolation = interpolationType
-                if not rotationFcurveX:
-                    rotationFcurveX = action.fcurves.new(dataPath + '.rotation_euler', 0, boneName)
-                    rotationFcurveX.keyframe_points.insert(0.0, 0.0)
-                if not rotationFcurveY:
-                    rotationFcurveY = action.fcurves.new(dataPath + '.rotation_euler', 1, boneName)
-                    rotationFcurveY.keyframe_points.insert(0.0, 0.0)
-                if not rotationFcurveZ:
-                    rotationFcurveZ = action.fcurves.new(dataPath + '.rotation_euler', 2, boneName)
-                    rotationFcurveZ.keyframe_points.insert(0.0, 0.0)
+                        realTime = round((time - intervalStart) / frameTime, 0)
+
+                        insert_xyz_keyframe_points(interpolationType, rotationFcurveX, rotationFcurveY, rotationFcurveZ,
+                                                   realTime, euler)
+
+                set_new_curve_with_keyframe_points(action, boneName, dataPath + '.rotation_euler',
+                                                   rotationFcurveX, rotationFcurveY, rotationFcurveZ, 0.0)
+
             if scalings:
                 scaleFcurveX = None
                 scaleFcurveY = None
@@ -113,28 +81,58 @@ def create_armature_actions(armatureObject, model, frameTime):
                     time = scalings.times[index]
                     scale = scalings.values[index]
                     if intervalStart <= time and time <= intervalEnd:
-                        if not scaleFcurveX:
-                            scaleFcurveX = action.fcurves.new(dataPath + '.scale', 0, boneName)
-                        if not scaleFcurveY:
-                            scaleFcurveY = action.fcurves.new(dataPath + '.scale', 1, boneName)
-                        if not scaleFcurveZ:
-                            scaleFcurveZ = action.fcurves.new(dataPath + '.scale', 2, boneName)
+                        scaleFcurveX, scaleFcurveY, scaleFcurveZ = set_new_curves(action, boneName,
+                                                                                  dataPath + '.scale',
+                                                                                  scaleFcurveX,
+                                                                                  scaleFcurveY,
+                                                                                  scaleFcurveZ)
                         realTime = round((time - intervalStart) / frameTime, 0)
-                        scaleXKeyframe = scaleFcurveX.keyframe_points.insert(realTime, scale[0])
-                        scaleYKeyframe = scaleFcurveY.keyframe_points.insert(realTime, scale[1])
-                        scaleZKeyframe = scaleFcurveZ.keyframe_points.insert(realTime, scale[2])
-                        scaleXKeyframe.interpolation = interpolationType
-                        scaleYKeyframe.interpolation = interpolationType
-                        scaleZKeyframe.interpolation = interpolationType
-                if not scaleFcurveX:
-                    scaleFcurveX = action.fcurves.new(dataPath + '.scale', 0, boneName)
-                    scaleFcurveX.keyframe_points.insert(0.0, 1.0)
-                if not scaleFcurveY:
-                    scaleFcurveY = action.fcurves.new(dataPath + '.scale', 1, boneName)
-                    scaleFcurveY.keyframe_points.insert(0.0, 1.0)
-                if not scaleFcurveZ:
-                    scaleFcurveZ = action.fcurves.new(dataPath + '.scale', 2, boneName)
-                    scaleFcurveZ.keyframe_points.insert(0.0, 1.0)
+
+                        insert_xyz_keyframe_points(interpolationType, scaleFcurveX, scaleFcurveY, scaleFcurveZ,
+                                                   realTime, scale)
+
+                set_new_curve_with_keyframe_points(action, boneName, dataPath + '.scale',
+                                                   scaleFcurveX, scaleFcurveY, scaleFcurveZ, 1.0)
+
+
+def set_new_curve_with_keyframe_points(action, boneName, dataPath, fcurveX, fcurveY, fcurveZ, value):
+    if not fcurveX:
+        fcurveX = action.fcurves.new(dataPath, 0, boneName)
+        fcurveX.keyframe_points.insert(0.0, value)
+    if not fcurveY:
+        fcurveY = action.fcurves.new(dataPath, 1, boneName)
+        fcurveY.keyframe_points.insert(0.0, value)
+    if not fcurveZ:
+        fcurveZ = action.fcurves.new(dataPath, 2, boneName)
+        fcurveZ.keyframe_points.insert(0.0, value)
+
+
+def set_new_curves(action, boneName, dataPath, fcurveX, fcurveY, fcurveZ):
+    if not fcurveX:
+        fcurveX = action.fcurves.new(dataPath, 0, boneName)
+    if not fcurveY:
+        fcurveY = action.fcurves.new(dataPath, 1, boneName)
+    if not fcurveZ:
+        fcurveZ = action.fcurves.new(dataPath, 2, boneName)
+    return fcurveX, fcurveY, fcurveZ
+
+
+def insert_xyz_keyframe_points(interpolationType, fcurveX, fcurveY, fcurveZ, realTime, movement):
+    xKeyframe = fcurveX.keyframe_points.insert(realTime, movement[0])
+    yKeyframe = fcurveY.keyframe_points.insert(realTime, movement[1])
+    zKeyframe = fcurveZ.keyframe_points.insert(realTime, movement[2])
+    xKeyframe.interpolation = interpolationType
+    yKeyframe.interpolation = interpolationType
+    zKeyframe.interpolation = interpolationType
+
+
+def new_fcurve(action, boneName, dataPath, value):
+    fcurveX = action.fcurves.new(dataPath, 0, boneName)
+    fcurveY = action.fcurves.new(dataPath, 1, boneName)
+    fcurveZ = action.fcurves.new(dataPath, 2, boneName)
+    fcurveX.keyframe_points.insert(0.0, value)
+    fcurveY.keyframe_points.insert(0.0, value)
+    fcurveZ.keyframe_points.insert(0.0, value)
 
 
 def add_sequence_to_armature(sequenceName, armatureObject):

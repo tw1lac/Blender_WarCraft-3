@@ -1,7 +1,7 @@
 
 bl_info = {
     'name': 'WarCraft 3',
-    'author': 'Pavel_Blend',
+    'author': 'Pavel_Blend, twilac',
     'version': (0, 0, 0),
     'blender': (2, 7, 8),
     'category': 'Import-Export',
