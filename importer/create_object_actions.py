@@ -1,6 +1,6 @@
 import bpy
 
-import constants
+from .. import constants
 
 
 def create_object_actions(model, bpyObjects, frameTime):

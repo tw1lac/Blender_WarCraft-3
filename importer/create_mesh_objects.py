@@ -1,6 +1,6 @@
 import bpy
 
-import constants
+from .. import constants
 
 
 def create_mesh_objects(model, setTeamColor):

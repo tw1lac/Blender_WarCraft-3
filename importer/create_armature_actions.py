@@ -1,7 +1,7 @@
 import bpy
 import mathutils
 
-import constants
+from .. import constants
 
 
 def create_armature_actions(armatureObject, model, frameTime):
