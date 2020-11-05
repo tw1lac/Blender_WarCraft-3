@@ -1,6 +1,7 @@
 
 import bpy
-from .classes import classes
+
+from .classes.MDXImportProperties import MDXImportProperties
 from . import constants
 from .parser import parser
 from . import utils
@@ -62,7 +63,7 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
             layout.prop(self.properties, 'animationFPS')
 
     def execute(self, context):
-        importProperties = classes.MDXImportProperties()
+        importProperties = MDXImportProperties()
         importProperties.mdx_file_path = self.properties.filepath
         importProperties.set_team_color = self.properties.setTeamColor
         importProperties.bone_size = self.properties.boneSize
