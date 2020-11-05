@@ -13,6 +13,7 @@ def create_armature_object(model, bpyObjects, boneSize):
     bpy.ops.object.mode_set(mode='EDIT')
     nodeTypes = set()
     boneTypes = {}
+
     for indexNode, node in enumerate(nodes):
         nodePosition = pivotPoints[indexNode]
         boneName = node.node.name
@@ -22,22 +23,29 @@ def create_armature_object(model, bpyObjects, boneSize):
         bone.tail = nodePosition
         bone.tail[1] += boneSize
         boneTypes[boneName] = node.type
+
     nodeTypes = list(nodeTypes)
     nodeTypes.sort()
+
     for indexNode, node in enumerate(nodes):
         bone = bpyObject.data.edit_bones[indexNode]
         if node.node.parent:
             parent = bpyObject.data.edit_bones[node.node.parent]
             bone.parent = parent
+            # bone.use_connect = True
+
     for mesh in bpyObjects:
         mesh.modifiers.new(name='Armature', type='ARMATURE')
         mesh.modifiers['Armature'].object = bpyObject
+
         for vertexGroup in mesh.vertex_groups:
             vertexGroupIndex = int(vertexGroup.name)
             boneName = bpyObject.data.edit_bones[vertexGroupIndex].name
             vertexGroup.name = boneName
+
     bpy.ops.object.mode_set(mode='POSE')
     boneGroups = {}
+
     for nodeType in nodeTypes:
         bpy.ops.pose.group_add()
         boneGroup = bpyObject.pose.bone_groups.active

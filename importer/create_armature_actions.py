@@ -31,19 +31,7 @@ def create_armature_actions(armatureObject, model, frameTime):
             scalings = node.node.scalings
 
             if translations:
-                locationFcurves = [None, None, None]
-                interpolationType = constants.INTERPOLATION_TYPE_NAMES[translations.interpolation_type]
-
-                for index in range(translations.tracks_count):
-                    time = translations.times[index]
-                    translation = translations.values[index]
-
-                    if intervalStart <= time and time <= intervalEnd:
-                        locationFcurves = set_new_curves(action, boneName, dataPath + '.location', locationFcurves)
-                        realTime = round((time - intervalStart) / frameTime, 0)
-
-                        insert_xyz_keyframe_points(interpolationType, locationFcurves, realTime, translation)
-                set_new_curves(action, boneName, dataPath + '.location', locationFcurves, 0.0)
+                pose_bones(action, boneName, dataPath + '.location', frameTime, intervalEnd, intervalStart, translations, 0.0)
 
             if rotations:
                 rotationFcurves = [None, None, None]
@@ -54,7 +42,7 @@ def create_armature_actions(armatureObject, model, frameTime):
                     rotation = rotations.values[index]
                     euler = mathutils.Quaternion(mathutils.Vector(rotation)).to_euler('XYZ')
 
-                    if intervalStart <= time and time <= intervalEnd:
+                    if intervalStart <= time <= intervalEnd:
                         rotationFcurves = set_new_curves(action, boneName, dataPath + '.rotation_euler', rotationFcurves)
                         realTime = round((time - intervalStart) / frameTime, 0)
 
@@ -63,20 +51,25 @@ def create_armature_actions(armatureObject, model, frameTime):
                 set_new_curves(action, boneName, dataPath + '.rotation_euler', rotationFcurves, 0.0)
 
             if scalings:
-                scaleFcurves = [None, None, None]
-                interpolationType = constants.INTERPOLATION_TYPE_NAMES[scalings.interpolation_type]
+                pose_bones(action, boneName, dataPath + '.scale', frameTime, intervalEnd, intervalStart,
+                           scalings, 1.0)
 
-                for index in range(scalings.tracks_count):
-                    time = scalings.times[index]
-                    scale = scalings.values[index]
 
-                    if intervalStart <= time and time <= intervalEnd:
-                        scaleFcurves = set_new_curves(action, boneName, dataPath + '.scale', scaleFcurves)
-                        realTime = round((time - intervalStart) / frameTime, 0)
+def pose_bones(action, boneName, dataPath, frameTime, intervalEnd, intervalStart, adjustments, value):
+    fcurves = [None, None, None]
+    interpolationType = constants.INTERPOLATION_TYPE_NAMES[adjustments.interpolation_type]
 
-                        insert_xyz_keyframe_points(interpolationType, scaleFcurves, realTime, scale)
+    for index in range(adjustments.tracks_count):
+        time = adjustments.times[index]
+        adjustment = adjustments.values[index]
 
-                set_new_curves(action, boneName, dataPath + '.scale', scaleFcurves, 1.0)
+        if intervalStart <= time <= intervalEnd:
+            fcurves = set_new_curves(action, boneName, dataPath, fcurves)
+            realTime = round((time - intervalStart) / frameTime, 0)
+
+            insert_xyz_keyframe_points(interpolationType, fcurves, realTime, adjustment)
+
+    set_new_curves(action, boneName, dataPath, fcurves, value)
 
 
 def set_new_curves(action, boneName, dataPath, fcurves, value=-1.0):
