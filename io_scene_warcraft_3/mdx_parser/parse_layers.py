@@ -1,12 +1,12 @@
 from io_scene_warcraft_3.classes.WarCraft3Layer import WarCraft3Layer
 from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.parse_material_alpha import parse_material_alpha
 from io_scene_warcraft_3.mdx_parser.parse_material_texture_id import parse_material_texture_id
 
 
 def parse_layers(data):
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     chunkId = r.getid(constants.CHUNK_LAYER)
     layersCount = r.getf('<I')[0]
     layers = []

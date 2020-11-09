@@ -1,13 +1,13 @@
 from io_scene_warcraft_3.classes.WarCraft3GeosetAnimation import WarCraft3GeosetAnimation
 from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.parse_geoset_alpha import parse_geoset_alpha
 from io_scene_warcraft_3.mdx_parser.parse_geoset_color import parse_geoset_color
 
 
 def parse_geoset_animations(data, model):
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
         geosetAnimation = WarCraft3GeosetAnimation()

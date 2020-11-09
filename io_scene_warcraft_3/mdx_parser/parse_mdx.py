@@ -1,7 +1,7 @@
 from io_scene_warcraft_3.classes.WarCraft3Model import WarCraft3Model
 from io_scene_warcraft_3 import constants
 from io_scene_warcraft_3.importer import importer
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.parse_attachments import parse_attachments
 from io_scene_warcraft_3.mdx_parser.parse_bones import parse_bones
 from io_scene_warcraft_3.mdx_parser.parse_collision_shapes import parse_collision_shapes
@@ -19,7 +19,7 @@ from io_scene_warcraft_3.mdx_parser.parse_version import parse_version
 
 def parse_mdx(data, importProperties):
     dataSize = len(data)
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     r.getid(constants.CHUNK_MDX_MODEL)
     model = WarCraft3Model()
     while r.offset < dataSize:

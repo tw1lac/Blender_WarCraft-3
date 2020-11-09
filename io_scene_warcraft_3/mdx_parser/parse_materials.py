@@ -1,10 +1,10 @@
 from io_scene_warcraft_3.classes.WarCraft3Material import WarCraft3Material
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.parse_layers import parse_layers
 
 
 def parse_materials(data, model):
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     dataSize = len(data)
     while r.offset < dataSize:
         material = WarCraft3Material()

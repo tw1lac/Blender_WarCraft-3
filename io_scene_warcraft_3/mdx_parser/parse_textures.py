@@ -1,9 +1,9 @@
 from io_scene_warcraft_3.classes.WarCraft3Texture import WarCraft3Texture
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 
 
 def parse_textures(data, model):
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     dataSize = len(data)
     if dataSize % 268 != 0:
         raise Exception('bad Texture data (size % 268 != 0)')

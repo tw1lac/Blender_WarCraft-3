@@ -1,10 +1,10 @@
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.parse_attachment import parse_attachment
 
 
 def parse_attachments(data, model):
     dataSize = len(data)
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     while r.offset < dataSize:
         inclusiveSize = r.getf('<I')[0]
         attachDataSize = inclusiveSize - 4

@@ -16,14 +16,14 @@ else:
     from .classes import classes_reload
     from . import constants
     from .importer import importer_reload
-    from .mdx_parser import parser_reload, binary
+    from .mdx_parser import parser_reload, binary_reader
     from . import utils
     try:
         importlib.reload(operators)
         importlib.reload(ui)
         importlib.reload(preferences)
         importlib.reload(types)
-        importlib.reload(binary)
+        importlib.reload(binary_reader)
         importlib.reload(classes_reload)
         importlib.reload(constants)
         importlib.reload(importer_reload)

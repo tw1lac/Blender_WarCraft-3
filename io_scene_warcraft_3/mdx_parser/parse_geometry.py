@@ -1,11 +1,11 @@
 from io_scene_warcraft_3.classes.WarCraft3Mesh import WarCraft3Mesh
 from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.mdx_parser import binary
+from io_scene_warcraft_3.mdx_parser import binary_reader
 from io_scene_warcraft_3.mdx_parser.get_vertex_groups import get_vertex_groups
 
 
 def parse_geometry(data):
-    r = binary.Reader(data)
+    r = binary_reader.Reader(data)
     mesh = WarCraft3Mesh()
     mesh.name = 'temp'
     ############################################################################
