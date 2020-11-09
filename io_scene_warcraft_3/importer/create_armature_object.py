@@ -32,7 +32,7 @@ def create_armature_object(model, bpyObjects, boneSize):
 
     for indexNode, node in enumerate(nodes):
         bone = bpyArmature.edit_bones[indexNode]
-        if node.node.parent:
+        if node.node.parent is not None:
             parent = bpyArmature.edit_bones[node.node.parent]
             bone.parent = parent
             # bone.use_connect = True
