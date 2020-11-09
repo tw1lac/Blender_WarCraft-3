@@ -13,11 +13,10 @@ else:
     from . import ui
     from . import preferences
     from . import types
-    from . import binary
     from .classes import classes_reload
     from . import constants
     from .importer import importer_reload
-    from .mdx_parser import parser_reload
+    from .mdx_parser import parser_reload, binary
     from . import utils
     try:
         importlib.reload(operators)

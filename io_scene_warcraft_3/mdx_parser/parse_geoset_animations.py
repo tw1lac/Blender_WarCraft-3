@@ -1,6 +1,7 @@
 from io_scene_warcraft_3.classes.WarCraft3GeosetAnimation import WarCraft3GeosetAnimation
 from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
-from io_scene_warcraft_3 import binary, constants
+from io_scene_warcraft_3 import constants
+from io_scene_warcraft_3.mdx_parser import binary
 from io_scene_warcraft_3.mdx_parser.parse_geoset_alpha import parse_geoset_alpha
 from io_scene_warcraft_3.mdx_parser.parse_geoset_color import parse_geoset_color
 

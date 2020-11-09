@@ -1,5 +1,5 @@
 from io_scene_warcraft_3.classes.WarCraft3Sequence import WarCraft3Sequence
-from io_scene_warcraft_3 import binary
+from io_scene_warcraft_3.mdx_parser import binary
 
 
 def parse_sequences(data, model):

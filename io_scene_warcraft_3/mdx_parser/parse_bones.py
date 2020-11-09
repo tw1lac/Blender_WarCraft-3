@@ -1,5 +1,5 @@
 from io_scene_warcraft_3.classes.WarCraft3Bone import WarCraft3Bone
-from io_scene_warcraft_3 import binary
+from io_scene_warcraft_3.mdx_parser import binary
 from io_scene_warcraft_3.mdx_parser.parse_node import parse_node
 
 

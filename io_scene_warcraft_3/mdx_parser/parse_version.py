@@ -1,4 +1,5 @@
-from io_scene_warcraft_3 import binary, constants
+from io_scene_warcraft_3 import constants
+from io_scene_warcraft_3.mdx_parser import binary
 
 
 def parse_version(data):
