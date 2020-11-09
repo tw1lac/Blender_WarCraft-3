@@ -1,5 +1,5 @@
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_geometry import parse_geometry
+from io_scene_warcraft_3.mdx_parser.parse_geometry import parse_geometry
 
 
 def parse_geosets(data, model):

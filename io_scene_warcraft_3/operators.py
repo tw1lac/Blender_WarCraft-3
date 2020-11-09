@@ -1,7 +1,7 @@
 import bpy
 
 from io_scene_warcraft_3.classes.MDXImportProperties import MDXImportProperties
-from io_scene_warcraft_3.parser.load_mdx import load_mdx
+from io_scene_warcraft_3.mdx_parser.load_mdx import load_mdx
 from . import constants
 from . import utils
 from bpy_extras import io_utils

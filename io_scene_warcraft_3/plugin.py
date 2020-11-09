@@ -17,7 +17,7 @@ else:
     from .classes import classes_reload
     from . import constants
     from .importer import importer_reload
-    from .parser import parser_reload
+    from .mdx_parser import parser_reload
     from . import utils
     try:
         importlib.reload(operators)

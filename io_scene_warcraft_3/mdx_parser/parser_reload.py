@@ -1,5 +1,5 @@
 if "load_mdx" in locals():
-    print("reload parser")
+    print("reload mdx_parser")
     import importlib
     from . import get_vertex_groups, load_mdx
     from . import (

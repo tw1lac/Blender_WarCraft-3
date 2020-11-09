@@ -2,19 +2,19 @@ from io_scene_warcraft_3.classes.WarCraft3Model import WarCraft3Model
 from io_scene_warcraft_3 import constants
 from io_scene_warcraft_3.importer import importer
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_attachments import parse_attachments
-from io_scene_warcraft_3.parser.parse_bones import parse_bones
-from io_scene_warcraft_3.parser.parse_collision_shapes import parse_collision_shapes
-from io_scene_warcraft_3.parser.parse_events import parse_events
-from io_scene_warcraft_3.parser.parse_geoset_animations import parse_geoset_animations
-from io_scene_warcraft_3.parser.parse_geosets import parse_geosets
-from io_scene_warcraft_3.parser.parse_helpers import parse_helpers
-from io_scene_warcraft_3.parser.parse_materials import parse_materials
-from io_scene_warcraft_3.parser.parse_model import parse_model
-from io_scene_warcraft_3.parser.parse_pivot_points import parse_pivot_points
-from io_scene_warcraft_3.parser.parse_sequences import parse_sequences
-from io_scene_warcraft_3.parser.parse_textures import parse_textures
-from io_scene_warcraft_3.parser.parse_version import parse_version
+from io_scene_warcraft_3.mdx_parser.parse_attachments import parse_attachments
+from io_scene_warcraft_3.mdx_parser.parse_bones import parse_bones
+from io_scene_warcraft_3.mdx_parser.parse_collision_shapes import parse_collision_shapes
+from io_scene_warcraft_3.mdx_parser.parse_events import parse_events
+from io_scene_warcraft_3.mdx_parser.parse_geoset_animations import parse_geoset_animations
+from io_scene_warcraft_3.mdx_parser.parse_geosets import parse_geosets
+from io_scene_warcraft_3.mdx_parser.parse_helpers import parse_helpers
+from io_scene_warcraft_3.mdx_parser.parse_materials import parse_materials
+from io_scene_warcraft_3.mdx_parser.parse_model import parse_model
+from io_scene_warcraft_3.mdx_parser.parse_pivot_points import parse_pivot_points
+from io_scene_warcraft_3.mdx_parser.parse_sequences import parse_sequences
+from io_scene_warcraft_3.mdx_parser.parse_textures import parse_textures
+from io_scene_warcraft_3.mdx_parser.parse_version import parse_version
 
 
 def parse_mdx(data, importProperties):

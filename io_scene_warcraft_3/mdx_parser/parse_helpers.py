@@ -1,6 +1,6 @@
 from io_scene_warcraft_3.classes.WarCraft3Helper import WarCraft3Helper
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_node import parse_node
+from io_scene_warcraft_3.mdx_parser.parse_node import parse_node
 
 
 def parse_helpers(data, model):

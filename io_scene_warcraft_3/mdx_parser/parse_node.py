@@ -1,8 +1,8 @@
 from io_scene_warcraft_3.classes.WarCraft3Node import WarCraft3Node
 from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.parser.parse_geoset_rotation import parse_geoset_rotation
-from io_scene_warcraft_3.parser.parse_geoset_scaling import parse_geoset_scaling
-from io_scene_warcraft_3.parser.parse_geoset_translation import parse_geoset_translation
+from io_scene_warcraft_3.mdx_parser.parse_geoset_rotation import parse_geoset_rotation
+from io_scene_warcraft_3.mdx_parser.parse_geoset_scaling import parse_geoset_scaling
+from io_scene_warcraft_3.mdx_parser.parse_geoset_translation import parse_geoset_translation
 
 
 def parse_node(r):

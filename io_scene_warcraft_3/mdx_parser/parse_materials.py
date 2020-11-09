@@ -1,6 +1,6 @@
 from io_scene_warcraft_3.classes.WarCraft3Material import WarCraft3Material
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_layers import parse_layers
+from io_scene_warcraft_3.mdx_parser.parse_layers import parse_layers
 
 
 def parse_materials(data, model):

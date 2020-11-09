@@ -1,7 +1,7 @@
 from io_scene_warcraft_3.classes.WarCraft3Attachment import WarCraft3Attachment
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_attachment_visibility import parse_attachment_visibility
-from io_scene_warcraft_3.parser.parse_node import parse_node
+from io_scene_warcraft_3.mdx_parser.parse_attachment_visibility import parse_attachment_visibility
+from io_scene_warcraft_3.mdx_parser.parse_node import parse_node
 
 
 def parse_attachment(data, model):

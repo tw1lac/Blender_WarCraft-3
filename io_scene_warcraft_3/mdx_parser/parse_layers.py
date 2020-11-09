@@ -1,7 +1,7 @@
 from io_scene_warcraft_3.classes.WarCraft3Layer import WarCraft3Layer
 from io_scene_warcraft_3 import binary, constants
-from io_scene_warcraft_3.parser.parse_material_alpha import parse_material_alpha
-from io_scene_warcraft_3.parser.parse_material_texture_id import parse_material_texture_id
+from io_scene_warcraft_3.mdx_parser.parse_material_alpha import parse_material_alpha
+from io_scene_warcraft_3.mdx_parser.parse_material_texture_id import parse_material_texture_id
 
 
 def parse_layers(data):

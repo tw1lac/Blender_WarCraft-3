@@ -1,6 +1,6 @@
 from io_scene_warcraft_3.classes.WarCraft3CollisionShape import WarCraft3CollisionShape
 from io_scene_warcraft_3 import binary
-from io_scene_warcraft_3.parser.parse_node import parse_node
+from io_scene_warcraft_3.mdx_parser.parse_node import parse_node
 
 
 def parse_collision_shapes(data, model):

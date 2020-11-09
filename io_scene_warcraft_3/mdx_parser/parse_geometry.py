@@ -1,6 +1,6 @@
 from io_scene_warcraft_3.classes.WarCraft3Mesh import WarCraft3Mesh
 from io_scene_warcraft_3 import binary, constants
-from io_scene_warcraft_3.parser.get_vertex_groups import get_vertex_groups
+from io_scene_warcraft_3.mdx_parser.get_vertex_groups import get_vertex_groups
 
 
 def parse_geometry(data):
