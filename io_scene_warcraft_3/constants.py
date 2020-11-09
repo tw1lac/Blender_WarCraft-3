@@ -83,6 +83,12 @@ INTERPOLATION_TYPE_NAMES = {
     2: 'BEZIER',
     3: 'BEZIER'
     }
+INTERPOLATION_TYPE_NUMBERS = {
+    'DontInterp': 0,
+    'Linear': 1,
+    'Hermite': 2,
+    'Bezier': 3
+}
 # TEAM COLORS
 TEAM_COLORS = {
     'RED': (1.0, 0.000911, 0.000911),
