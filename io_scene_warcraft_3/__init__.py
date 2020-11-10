@@ -6,9 +6,9 @@ bl_info = {
     'blender': (2, 80, 0),
     'category': 'Import-Export',
     'location': 'File > Import',
-    'description': 'Import *.mdx files (3d models of WarCraft 3)',
-    'doc_url': 'https://github.com/PavelBlend/Blender_WarCraft-3',
-    'tracker_url': 'https://github.com/PavelBlend/Blender_WarCraft-3/issues'
+    'description': 'Import *.mdl/*.mdx files (3d models of WarCraft 3)',
+    'doc_url': 'https://github.com/tw1lac/Blender_WarCraft-3',
+    'tracker_url': 'https://github.com/tw1lac/Blender_WarCraft-3/issues'
     }
 
 

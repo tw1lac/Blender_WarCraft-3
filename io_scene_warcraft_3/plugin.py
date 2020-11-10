@@ -30,11 +30,11 @@ else:
         importlib.reload(parser_reload)
         importlib.reload(utils)
     except:
-        print("colud not reload module")
+        print("could not reload module")
 
 
 def menu_import_mdx(self, context):
-    self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdx)')
+    self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdl/.mdx)')
 
 
 wc_classes = (
