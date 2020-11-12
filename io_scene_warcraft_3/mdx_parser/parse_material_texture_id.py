@@ -9,7 +9,7 @@ def parse_material_texture_id(r):
     globalSequenceId = r.getf('<I')[0]
     for _ in range(textureId.tracks_count):
         time = r.getf('<I')[0]
-        value = r.getf('<f')[0]    # texture id value
+        value = r.getf('<I')[0]    # texture id value
         textureId.times.append(time)
         textureId.values.append(value)
         if textureId.interpolation_type > constants.INTERPOLATION_TYPE_LINEAR:

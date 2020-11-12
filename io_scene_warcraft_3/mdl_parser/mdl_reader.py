@@ -35,8 +35,9 @@ def chunkifier(chunk_to_split):
 def extract_bracket_content(stuff):
     # print("extract_bracket_content")
     split_start = stuff.find("{")+1
-    bracket_count = 1
+    # bracket_count = 1
     end_bracket_index = stuff.find("}")
+    bracket_count = count_brackets(0, stuff[0:end_bracket_index + 1])
     # print(stuff[split_start:end_bracket_index + 1])
     # print(end_bracket_index)
     while bracket_count > 0:
@@ -75,7 +76,9 @@ def get_between(line, start, end):
 
 
 def extract_float_values(line):
-    no_bracket_line = extract_bracket_content(line)
+    no_bracket_line = extract_bracket_content(line).strip(',')
+    if no_bracket_line == '':
+        no_bracket_line = line.strip(',')
     line_value_strings = re.split(', *', no_bracket_line)
     line_values = []
     for v_string in line_value_strings:
@@ -85,6 +88,8 @@ def extract_float_values(line):
 
 def extract_int_values(line):
     no_bracket_line = extract_bracket_content(line).strip(',')
+    if no_bracket_line == '':
+        no_bracket_line = line.strip(',')
     # print(no_bracket_line)
     line_value_strings = re.split(', *', no_bracket_line)
     # print(line_value_strings)

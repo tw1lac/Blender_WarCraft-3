@@ -5,7 +5,7 @@ from .mdl_reader import get_between, extract_bracket_content, chunkifier
 
 
 def parse_node(data):
-    print("parse_node")
+    # print("parse_node")
     node = WarCraft3Node()
     node.name = data.split("\"")[1]
     node.id = 0
@@ -15,8 +15,8 @@ def parse_node(data):
     node.parent = 0
     if data.find("Parent") > -1:
         node.parent = int(get_between(data, "Parent", ","))
-    if node.parent == 0xffffffff:
-        node.parent = None
+    # if node.parent == 0xffffffff:
+        # node.parent = None
 
     bone_info = extract_bracket_content(data)
     start_points = []
