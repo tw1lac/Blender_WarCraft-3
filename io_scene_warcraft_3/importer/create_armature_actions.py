@@ -11,11 +11,7 @@ def create_armature_actions(armatureObject, model, frameTime):
     add_sequence_to_armature('#UNANIMATED', armatureObject)
 
     for node in nodes:
-        boneName = node.node.name
-        dataPath = 'pose.bones["' + boneName + '"]'
-        new_fcurve(action, boneName, dataPath + '.location', 0.0)
-        new_fcurve(action, boneName, dataPath + '.rotation_euler', 0.0)
-        new_fcurve(action, boneName, dataPath + '.scale', 1.0)
+        add_unanimated_to_bones(action, node)
 
     for sequence in sequences:
         intervalStart = sequence.interval_start
@@ -24,58 +20,58 @@ def create_armature_actions(armatureObject, model, frameTime):
         add_sequence_to_armature(sequence.name, armatureObject)
 
         for node in nodes:
-            boneName = node.node.name
-            dataPath = 'pose.bones["' + boneName + '"]'
-            translations = node.node.translations
-            rotations = node.node.rotations
-            scalings = node.node.scalings
+            add_actions_to_bones(action, frameTime, intervalEnd, intervalStart, node)
 
-            if translations:
-                locationfcurves = [None, None, None]
-                interpolationType = constants.INTERPOLATION_TYPE_NAMES[translations.interpolation_type]
 
-                for index in range(translations.tracks_count):
-                    time = translations.times[index]
-                    translation = translations.values[index]
+def add_unanimated_to_bones(action, node):
+    boneName = node.node.name
+    dataPath = 'pose.bones["' + boneName + '"]'
+    new_fcurve(action, boneName, dataPath + '.location', 0.0)
+    new_fcurve(action, boneName, dataPath + '.rotation_euler', 0.0)
+    new_fcurve(action, boneName, dataPath + '.scale', 1.0)
 
-                    if intervalStart <= time and time <= intervalEnd:
-                        locationfcurves = set_new_curves(action, boneName, dataPath + '.location', locationfcurves)
-                        realTime = round((time - intervalStart) / frameTime, 0)
-                        insert_xyz_keyframe_points(interpolationType, locationfcurves, realTime, translation)
 
-                set_new_curves(action, boneName, dataPath + '.location', locationfcurves, 0.0)
+def add_actions_to_bones(action, frameTime, intervalEnd, intervalStart, node):
+    boneName = node.node.name
+    dataPath = 'pose.bones["' + boneName + '"]'
+    translations = node.node.translations
+    rotations = node.node.rotations
+    scalings = node.node.scalings
 
-            if rotations:
-                rotationFcurves = [None, None, None]
-                interpolationType = constants.INTERPOLATION_TYPE_NAMES[rotations.interpolation_type]
+    if translations:
+        create_transformation_curves(action, boneName, 'location', frameTime, intervalEnd, intervalStart,
+                                     translations, 0.0,
+                                     lambda translation: translation)
+    if rotations:
+        create_transformation_curves(action, boneName, 'rotation_euler', frameTime, intervalEnd, intervalStart,
+                                     rotations, 0.0,
+                                     lambda rotation: (mathutils.Quaternion(mathutils.Vector(rotation)).to_euler('XYZ')))
 
-                for index in range(rotations.tracks_count):
-                    time = rotations.times[index]
-                    rotation = rotations.values[index]
-                    euler = mathutils.Quaternion(mathutils.Vector(rotation)).to_euler('XYZ')
+    if scalings:
+        create_transformation_curves(action, boneName, 'scale', frameTime, intervalEnd, intervalStart,
+                                     scalings, 1.0,
+                                     lambda scaling: scaling)
 
-                    if intervalStart <= time <= intervalEnd:
-                        rotationFcurves = set_new_curves(action, boneName, dataPath + '.rotation_euler', rotationFcurves)
-                        realTime = round((time - intervalStart) / frameTime, 0)
 
-                        insert_xyz_keyframe_points(interpolationType, rotationFcurves, realTime, euler)
+def create_transformation_curves(action, boneName, data_path_addition, frameTime, intervalEnd, intervalStart,
+                                 transformations, transformation_zero_value, value_conversion):
+    dataPath = 'pose.bones["' + boneName + '"].'+ data_path_addition
+    # starting_keyframe = round(sequence_start / frameTime, 0)
 
-                set_new_curves(action, boneName, dataPath + '.rotation_euler', rotationFcurves, 0.0)
+    interpolationType = constants.INTERPOLATION_TYPE_NAMES[transformations.interpolation_type]
+    transformationfcurves = [None, None, None]
 
-            if scalings:
-                scalefcurves = [None, None, None]
-                interpolationType = constants.INTERPOLATION_TYPE_NAMES[scalings.interpolation_type]
+    for index in range(transformations.tracks_count):
+        time = transformations.times[index]
+        transformation = transformations.values[index]
+        converted_values = value_conversion(transformation)
 
-                for index in range(scalings.tracks_count):
-                    time = scalings.times[index]
-                    scale = scalings.values[index]
+        if intervalStart <= time <= intervalEnd:
+            realTime = round((time - intervalStart) / frameTime, 0)
+            transformationfcurves = set_new_curves(action, boneName, dataPath, transformationfcurves, 0)
+            insert_xyz_keyframe_points(interpolationType, transformationfcurves, realTime, converted_values)
 
-                    if intervalStart <= time and time <= intervalEnd:
-                        scalefcurves = set_new_curves(action, boneName, dataPath + '.scale', scalefcurves)
-                        realTime = round((time - intervalStart) / frameTime, 0)
-                        insert_xyz_keyframe_points(interpolationType, scalefcurves, realTime, scale)
-
-                set_new_curves(action, boneName, dataPath + '.scale', scalefcurves, 1.0)
+    set_new_curves(action, boneName, dataPath, transformationfcurves, transformation_zero_value)
 
 
 def set_new_curves(action, boneName, dataPath, fcurves, value=-1.0):

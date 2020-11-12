@@ -12,7 +12,7 @@ def parse_node(data):
     if data.find("ObjectId") > -1:
         node.id = int(get_between(data, "ObjectId", ","))
 
-    node.parent = 0
+    node.parent = None
     if data.find("Parent") > -1:
         node.parent = int(get_between(data, "Parent", ","))
     # if node.parent == 0xffffffff:
