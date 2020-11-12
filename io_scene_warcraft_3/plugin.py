@@ -34,7 +34,7 @@ else:
 
 
 def menu_import_mdx(self, context):
-    self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdl/.mdx)')
+    self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='Warcraft 3 (.mdl/.mdx)')
 
 
 wc_classes = (

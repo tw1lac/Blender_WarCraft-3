@@ -9,9 +9,9 @@ from bpy_extras import io_utils
 
 
 class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
-    bl_idname = 'warcraft_3.import_mdx'
-    bl_label = 'Import *.mdx'
-    bl_description = 'Import *.mdx files (3d models of WarCraft 3)'
+    bl_idname = 'warcraft_3.import_mdl_mdx'
+    bl_label = 'Import *.mdl/*.mdx'
+    bl_description = 'Import *.mdl/*.mdx files (3d models of WarCraft 3)'
     bl_options = {'UNDO'}
 
     filename_ext = ['.mdx', '.mdl']
@@ -83,8 +83,8 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
 
 class WarCraft3OperatorAddSequenceToArmature(bpy.types.Operator):
     bl_idname = 'warcraft_3.add_sequence_to_armature'
-    bl_label = 'WarCraft 3 Add Sequence to Armature'
-    bl_description = 'WarCraft 3 Add Sequence to Armature'
+    bl_label = 'Warcraft 3 Add Sequence to Armature'
+    bl_description = 'Warcraft 3 Add Sequence to Armature'
     bl_options = {'UNDO'}
 
     def execute(self, context):
@@ -97,8 +97,8 @@ class WarCraft3OperatorAddSequenceToArmature(bpy.types.Operator):
 
 class WarCraft3OperatorRemoveSequenceToArmature(bpy.types.Operator):
     bl_idname = 'warcraft_3.remove_sequence_to_armature'
-    bl_label = 'WarCraft 3 Remove Sequence to Armature'
-    bl_description = 'WarCraft 3 Remove Sequence to Armature'
+    bl_label = 'Warcraft 3 Remove Sequence to Armature'
+    bl_description = 'Warcraft 3 Remove Sequence to Armature'
     bl_options = {'UNDO'}
 
     def execute(self, context):
@@ -110,8 +110,8 @@ class WarCraft3OperatorRemoveSequenceToArmature(bpy.types.Operator):
 
 class WarCraft3OperatorUpdateBoneSettings(bpy.types.Operator):
     bl_idname = 'warcraft_3.update_bone_settings'
-    bl_label = 'WarCraft 3 Update Bone Settings'
-    bl_description = 'WarCraft 3 Update Bone Settings'
+    bl_label = 'Warcraft 3 Update Bone Settings'
+    bl_description = 'Warcraft 3 Update Bone Settings'
     bl_options = {'UNDO'}
 
     def execute(self, context):

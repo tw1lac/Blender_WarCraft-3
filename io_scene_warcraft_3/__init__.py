@@ -1,6 +1,6 @@
 
 bl_info = {
-    'name': 'WarCraft 3',
+    'name': 'Warcraft 3 (*.mdl/*.mdx)',
     'author': 'Pavel_Blend & twilac',
     'version': (0, 0, 0),
     'blender': (2, 80, 0),
