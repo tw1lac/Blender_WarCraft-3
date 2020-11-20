@@ -71,6 +71,9 @@ def parse_geometry(data):
     mesh.material_id = r.getf('<I')[0]
     selectionGroup = r.getf('<I')[0]
     selectionFlags = r.getf('<I')[0]
+    if constants.MDX_CURRENT_VERSION > 800:
+        lod = r.getf('<I')[0]
+        lodName = r.gets(80)
     boundsRadius = r.getf('<f')[0]
     minimumExtent = r.getf('<3f')
     maximumExtent = r.getf('<3f')
@@ -82,7 +85,18 @@ def parse_geometry(data):
     ############################################################################
     ################################# NOT USED #################################
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
+    if constants.MDX_CURRENT_VERSION > 800:
+        chunkId = r.getid((constants.CHUNK_TANGENTS, constants.CHUNK_SKIN, constants.CHUNK_TEXTURE_VERTEX_GROUP))
+        if chunkId == constants.CHUNK_TANGENTS:
+            tangentSize = r.getf('<I')[0]
+            r.skip(16*tangentSize) #4 floats per tangent
+            chunkId = r.getid((constants.CHUNK_SKIN, constants.CHUNK_TEXTURE_VERTEX_GROUP))
+        if chunkId == constants.CHUNK_SKIN:
+            skinSize = r.getf('<I')[0]
+            r.skip(skinSize)
+            chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
+    else:
+        chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
     textureVertexGroupCount = r.getf('<I')[0]
     ############################################################################
     chunkId = r.getid(constants.CHUNK_VERTEX_TEXTURE_POSITION)
