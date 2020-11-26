@@ -1,13 +1,16 @@
-from io_scene_warcraft_3.classes.WarCraft3Sequence import WarCraft3Sequence
-from io_scene_warcraft_3.mdx_parser import binary_reader
+from ..classes.WarCraft3Sequence import WarCraft3Sequence
+from . import binary_reader
 
 
 def parse_sequences(data, model):
     r = binary_reader.Reader(data)
     dataSize = len(data)
+
     if dataSize % 132 != 0:
         raise Exception('bad sequence data (size % 132 != 0)')
+
     sequenceCount = dataSize // 132
+
     for _ in range(sequenceCount):
         sequence = WarCraft3Sequence()
         sequence.name = r.gets(80)

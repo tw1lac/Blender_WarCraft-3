@@ -1,4 +1,4 @@
-from io_scene_warcraft_3.mdx_parser.parse_mdx import parse_mdx
+from .parse_mdx import parse_mdx
 
 
 def load_mdx(importProperties):

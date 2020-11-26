@@ -1,4 +1,4 @@
-from io_scene_warcraft_3.mdx_parser import binary_reader
+from . import binary_reader
 
 
 def parse_model(data, model):

@@ -1,20 +1,20 @@
-from io_scene_warcraft_3.classes.WarCraft3Model import WarCraft3Model
-from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.importer import importer
-from io_scene_warcraft_3.mdx_parser import binary_reader
-from io_scene_warcraft_3.mdx_parser.parse_attachments import parse_attachments
-from io_scene_warcraft_3.mdx_parser.parse_bones import parse_bones
-from io_scene_warcraft_3.mdx_parser.parse_collision_shapes import parse_collision_shapes
-from io_scene_warcraft_3.mdx_parser.parse_events import parse_events
-from io_scene_warcraft_3.mdx_parser.parse_geoset_animations import parse_geoset_animations
-from io_scene_warcraft_3.mdx_parser.parse_geosets import parse_geosets
-from io_scene_warcraft_3.mdx_parser.parse_helpers import parse_helpers
-from io_scene_warcraft_3.mdx_parser.parse_materials import parse_materials
-from io_scene_warcraft_3.mdx_parser.parse_model import parse_model
-from io_scene_warcraft_3.mdx_parser.parse_pivot_points import parse_pivot_points
-from io_scene_warcraft_3.mdx_parser.parse_sequences import parse_sequences
-from io_scene_warcraft_3.mdx_parser.parse_textures import parse_textures
-from io_scene_warcraft_3.mdx_parser.parse_version import parse_version
+from ..classes.WarCraft3Model import WarCraft3Model
+from .. import constants
+from ..importer import importer
+from . import binary_reader
+from .parse_attachments import parse_attachments
+from .parse_bones import parse_bones
+from .parse_collision_shapes import parse_collision_shapes
+from .parse_events import parse_events
+from .parse_geoset_animations import parse_geoset_animations
+from .parse_geosets import parse_geosets
+from .parse_helpers import parse_helpers
+from .parse_materials import parse_materials
+from .parse_model import parse_model
+from .parse_pivot_points import parse_pivot_points
+from .parse_sequences import parse_sequences
+from .parse_textures import parse_textures
+from .parse_version import parse_version
 
 
 def parse_mdx(data, importProperties):
@@ -22,11 +22,13 @@ def parse_mdx(data, importProperties):
     r = binary_reader.Reader(data)
     r.getid(constants.CHUNK_MDX_MODEL)
     model = WarCraft3Model()
+
     while r.offset < dataSize:
         chunkId = r.getid(constants.SUB_CHUNKS_MDX_MODEL, debug=True)
         chunkSize = r.getf('<I')[0]
         chunkData = data[r.offset: r.offset + chunkSize]
         r.skip(chunkSize)
+
         if chunkId == constants.CHUNK_VERSION:
             parse_version(chunkData)
         elif chunkId == constants.CHUNK_GEOSET:
@@ -53,4 +55,5 @@ def parse_mdx(data, importProperties):
             parse_sequences(chunkData, model)
         elif chunkId == constants.CHUNK_GEOSET_ANIMATION:
             parse_geoset_animations(chunkData, model)
+
     importer.load_warcraft_3_model(model, importProperties)

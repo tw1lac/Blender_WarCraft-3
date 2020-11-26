@@ -1,11 +1,12 @@
-from io_scene_warcraft_3.classes.WarCraft3Bone import WarCraft3Bone
-from io_scene_warcraft_3.mdx_parser import binary_reader
-from io_scene_warcraft_3.mdx_parser.parse_node import parse_node
+from ..classes.WarCraft3Bone import WarCraft3Bone
+from . import binary_reader
+from .parse_node import parse_node
 
 
 def parse_bones(data, model):
     r = binary_reader.Reader(data)
     dataSize = len(data)
+
     while r.offset < dataSize:
         bone = WarCraft3Bone()
         bone.node = parse_node(r)

@@ -1,9 +1,9 @@
-from io_scene_warcraft_3.classes.WarCraft3Layer import WarCraft3Layer
-from io_scene_warcraft_3 import constants
-from io_scene_warcraft_3.mdx_parser import binary_reader
-from io_scene_warcraft_3.mdx_parser.parse_material_alpha import parse_material_alpha
-from io_scene_warcraft_3.mdx_parser.parse_material_texture_id import parse_material_texture_id
-from io_scene_warcraft_3.mdx_parser.parse_fresnel_colour import parse_fresnel_colour
+from ..classes.WarCraft3Layer import WarCraft3Layer
+from .. import constants
+from . import binary_reader
+from .parse_material_alpha import parse_material_alpha
+from .parse_material_texture_id import parse_material_texture_id
+from .parse_fresnel_colour import parse_fresnel_colour
 
 
 def parse_layers(data):
@@ -11,6 +11,7 @@ def parse_layers(data):
     chunkId = r.getid(constants.CHUNK_LAYER)
     layersCount = r.getf('<I')[0]
     layers = []
+
     for _ in range(layersCount):
         layer = WarCraft3Layer()
         inclusiveSize = r.offset + r.getf('<I')[0]
@@ -41,4 +42,5 @@ def parse_layers(data):
             elif chunkId == constants.CHUNK_MATERIAL_FRESNEL_TEAMCOLOUR:
                 fresnel_teamcolour = parse_material_alpha(r)
         layers.append(layer)
+
     return layers

@@ -1,9 +1,16 @@
 from ..classes.WarCraft3GeosetAnimation import WarCraft3GeosetAnimation
 from .mdl_reader import extract_bracket_content
+from .mdl_reader import get_between
 
 
 def parse_geoset_animations(data, model):
     geosetAnimation = WarCraft3GeosetAnimation()
+    geosetAnimation.geoset_id = 0
+    geoset_id = get_between(data, "GeosetId", ",")
+
+    if geoset_id != "Multiple":
+        geosetAnimation.geoset_id = int(geoset_id)
+
 
     animation_data = extract_bracket_content(data)
     animation_info = extract_bracket_content(data).split(",\n")
