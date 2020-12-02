@@ -48,6 +48,19 @@ def parse_mdl(data, importProperties):
             parse_sequences(chunk, model)
         elif label == "GeosetAnim":
             parse_geoset_animations(chunk, model)
+        elif label == "ParticleEmitter2":
+            print("Particles not implemented yet")
+        elif label == "TextureAnims":
+            print("TextureAnims not implemented yet")
+        elif label == "RibbonEmitter":
+            print("RibbonEmitter not implemented yet")
+        elif label == "Camera":
+            print("Camera not implemented yet")
+        elif label == "Ugg":
+            print("X not implemented yet")
+        elif label == "Ugg":
+            print("X not implemented yet")
+
     importer.load_warcraft_3_model(model, importProperties)
 
 

@@ -8,6 +8,7 @@ from .parse_tracks import parse_tracks
 def parse_events(data, model):
     dataSize = len(data)
     r = binary_reader.Reader(data)
+
     while r.offset < dataSize:
 
         event = WarCraft3Event()

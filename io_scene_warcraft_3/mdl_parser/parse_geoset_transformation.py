@@ -40,6 +40,9 @@ def parse_geoset_transformation(node_chunk):
                 if re.match("\d+", line_start):
                     values = line_values
                     transformation.times.append(time)
-                    transformation.values.append(values)
+                    if(len(values) == 1):
+                        transformation.values.append(values[0])
+                    else:
+                        transformation.values.append(values)
 
     return transformation

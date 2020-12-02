@@ -2,8 +2,8 @@ from ..classes.WarCraft3GeosetAnimation import WarCraft3GeosetAnimation
 from ..classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from .. import constants
 from . import binary_reader
-from . import parse_geoset_alpha
-from . import parse_geoset_color
+from .parse_geoset_alpha import parse_geoset_alpha
+from .parse_geoset_color import parse_geoset_color
 
 
 def parse_geoset_animations(data, model):

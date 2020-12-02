@@ -18,6 +18,9 @@ def parse_node(data):
     # if node.parent == 0xffffffff:
         # node.parent = None
 
+    if data.find("AttachmentID") > -1:
+        node.attachment_id = int(get_between(data, "AttachmentID", ","))
+
     bone_info = extract_bracket_content(data)
     start_points = []
 
@@ -41,5 +44,7 @@ def parse_node(data):
             node.rotations = parse_geoset_transformation(node_chunk)
         if label == "Scaling":
             node.scalings = parse_geoset_transformation(node_chunk)
+        if label == "Visibility":
+            node.visibility = parse_geoset_transformation(node_chunk)
 
     return node
