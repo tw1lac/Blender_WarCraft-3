@@ -3,13 +3,15 @@ def get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices):
     matrix = []
 
     for matrixGroupSize in matrixGroupsSizes:
-        matrix.append(matrixIndices[i : i + matrixGroupSize])
+        matrix.append(matrixIndices[i: i + matrixGroupSize])
         i += matrixGroupSize
 
     vertexGroups = []
     vertexGroupsIds = set()
 
     for matrixGroup in matrixGroups:
+        if matrixGroup == 255 and matrixGroup > len(matrix):
+            matrixGroup = 0
         vertexGroup = matrix[matrixGroup]
         vertexGroups.append(vertexGroup)
 
