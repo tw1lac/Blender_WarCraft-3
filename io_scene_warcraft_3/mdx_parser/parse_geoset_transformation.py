@@ -16,7 +16,7 @@ def parse_geoset_transformation(r, format):
 
         if format == '<4f':
             values = (values[3], values[0], values[1], values[2])
-            print(values)
+            # print(values)
 
         transformation.times.append(time)
         transformation.values.append(values)
