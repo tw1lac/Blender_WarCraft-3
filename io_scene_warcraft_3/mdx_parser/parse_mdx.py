@@ -16,6 +16,8 @@ from .parse_sequences import parse_sequences
 from .parse_textures import parse_textures
 from .parse_version import parse_version
 
+# https://www.fsdeveloper.com/wiki/index.php?title=MDL_file_format_(FSX)
+
 
 def parse_mdx(data, importProperties):
     dataSize = len(data)
