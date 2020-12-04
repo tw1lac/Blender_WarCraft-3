@@ -7,7 +7,7 @@ from io_scene_warcraft_3.importer.create_object_actions import create_object_act
 
 def load_warcraft_3_model(model, importProperties):
 
-    bpyMaterials = create_material(model, importProperties.setTeamColor)
+    bpyMaterials = create_material(model, importProperties.set_team_color)
     bpyObjects = create_mesh_objects(model, bpyMaterials)
     armatureObject = create_armature_object(model, bpyObjects, importProperties.bone_size)
     create_armature_actions(armatureObject, model, importProperties.frame_time)
