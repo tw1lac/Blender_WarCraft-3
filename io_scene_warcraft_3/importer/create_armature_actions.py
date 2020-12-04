@@ -5,6 +5,7 @@ from io_scene_warcraft_3 import constants
 
 
 def create_armature_actions(armatureObject, model, frameTime):
+    print("adding animations")
     nodes = model.nodes
     sequences = model.sequences
     action = bpy.data.actions.new(name='#UNANIMATED')
@@ -19,6 +20,7 @@ def create_armature_actions(armatureObject, model, frameTime):
         add_unanimated_to_bones(action_all, node)
 
     for sequence in sequences:
+        print("adding sequence " + sequence.name)
         intervalStart = sequence.interval_start
         intervalEnd = sequence.interval_end
         action = bpy.data.actions.new(name=sequence.name)
@@ -116,9 +118,12 @@ def create_transformation_curves(action, boneName, data_path_addition, frameTime
 def set_new_curves(action, boneName, dataPath, fcurves, starting_keyframe, value=-1.0):
     for i in range(len(fcurves)):
         if not fcurves[i]:
-            fcurves[i] = action.fcurves.new(dataPath, index=i, action_group=boneName)
-            if value != -1.0:
-                fcurves[i].keyframe_points.insert(starting_keyframe, value)
+            try:
+                fcurves[i] = action.fcurves.new(dataPath, index=i, action_group=boneName)
+                if value != -1.0:
+                    fcurves[i].keyframe_points.insert(starting_keyframe, value)
+            except:
+                print("fcurve did already exist")
     return fcurves
 
 
@@ -129,9 +134,12 @@ def insert_xyz_keyframe_points(interpolationType, fcurves, realTime, movement):
 
 
 def new_fcurve(action, boneName, dataPath, value):
-    for i in range(3):
-        fcurve = action.fcurves.new(dataPath, index=i, action_group=boneName)
-        fcurve.keyframe_points.insert(0.0, value)
+    try:
+        for i in range(3):
+            fcurve = action.fcurves.new(dataPath, index=i, action_group=boneName)
+            fcurve.keyframe_points.insert(0.0, value)
+    except:
+        print("fcurve did already exist")
 
 
 def add_sequence_to_armature(sequenceName, armatureObject):

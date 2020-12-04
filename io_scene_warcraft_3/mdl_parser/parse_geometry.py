@@ -53,8 +53,14 @@ def parse_geometry(geoset_chunks):
             t_vertices = chunkifier(extract_bracket_content(data_chunk))
 
             for t_vertice in t_vertices:
-                u,v = extract_float_values(t_vertice)
+                u, v = extract_float_values(t_vertice)
                 mesh.uvs.append((u, 1 - v))
+
+        if label == "SkinWeights":
+            weights = chunkifier(extract_bracket_content(data_chunk))
+
+            for weight in weights:
+                mesh.skin_weights.append(extract_int_values(weight))
 
     vertexGroups, vertexGroupsIds = get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices)
     mesh.vertex_groups = vertexGroups

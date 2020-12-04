@@ -3,8 +3,11 @@ import re
 
 class Reader:
     def __init__(self, file):
+        print("reading")
         self.file = file
+        print("got file")
         self.chunks = chunkifier(file)
+        print("split file into chunks")
 
     def parse(self, context):
         pass
@@ -81,8 +84,10 @@ def extract_float_values(line):
         no_bracket_line = line.strip(',')
     line_value_strings = re.split(', *', no_bracket_line)
     line_values = []
-    for v_string in line_value_strings:
-        line_values.append(float(v_string))
+    # if re.match('\\s*\\d+.*\\d*\\s*', no_bracket_line):
+    if re.match('[\\s\\S]*\\d+[\\s\\S]*', no_bracket_line):
+        for v_string in line_value_strings:
+            line_values.append(float(v_string))
     return line_values
 
 
@@ -94,8 +99,9 @@ def extract_int_values(line):
     line_value_strings = re.split(', *', no_bracket_line)
     # print(line_value_strings)
     line_values = []
-
-    for v_string in line_value_strings:
-        # print(v_string.strip('\n\t '))
-        line_values.append(int(v_string.strip('\n\t ')))
+    # if re.match('\\s*\\d+\\s*', no_bracket_line):
+    if re.match('[\\s\\S]*\\d+[\\s\\S]*', no_bracket_line):
+        for v_string in line_value_strings:
+            # print(v_string.strip('\n\t '))
+            line_values.append(int(v_string.strip('\n\t ')))
     return line_values

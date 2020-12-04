@@ -7,3 +7,4 @@ class WarCraft3Mesh:
         self.material_id = None
         self.vertex_groups = []
         self.vertex_groups_ids = None
+        self.skin_weights = []

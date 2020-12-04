@@ -1,9 +1,9 @@
 import bpy
 
-from io_scene_warcraft_3.importer.create_material import create_material
 
 
 def create_mesh_objects(model, bpyMaterials):
+    print("creating mesh")
     bpyObjects = []
 
     for warCraft3Mesh in model.meshes:
@@ -21,15 +21,20 @@ def create_mesh_objects(model, bpyMaterials):
 
         bpyMaterial = bpyMaterials[warCraft3Mesh.material_id]
         bpyMesh.materials.append(bpyMaterial)
-        # bpyImage = None
-        # for textureSlot in bpyMaterial.texture_slots:
-        #     if textureSlot:
-        #         bpyImage = textureSlot.texture.image
-        # if bpyImage:
-        #     for triangleID in range(len(bpyObject.data.polygons)):
-        #         bpyObject.data.uv_textures[0].data[triangleID].image = bpyImage
+
         for vertexGroupId in warCraft3Mesh.vertex_groups_ids:
             bpyObject.vertex_groups.new(name=str(vertexGroupId))
+
+        for vertexIndex in range(len(warCraft3Mesh.skin_weights)):
+            skin_weight = warCraft3Mesh.skin_weights[vertexIndex]
+            if skin_weight[0] != 255 and skin_weight[4] != 0:
+                bpyObject.vertex_groups.get(str(skin_weight[0])).add([vertexIndex, ], skin_weight[4]/255.0, 'REPLACE')
+            if skin_weight[1] != 255 and skin_weight[5] != 0:
+                bpyObject.vertex_groups.get(str(skin_weight[1])).add([vertexIndex, ], skin_weight[5]/255.0, 'REPLACE')
+            if skin_weight[2] != 255 and skin_weight[6] != 0:
+                bpyObject.vertex_groups.get(str(skin_weight[2])).add([vertexIndex, ], skin_weight[6]/255.0, 'REPLACE')
+            if skin_weight[3] != 255 and skin_weight[7] != 0:
+                bpyObject.vertex_groups.get(str(skin_weight[3])).add([vertexIndex, ], skin_weight[7]/255.0, 'REPLACE')
 
         for vertexIndex, vertexGroupIds in enumerate(warCraft3Mesh.vertex_groups):
             for vertexGroupId in vertexGroupIds:

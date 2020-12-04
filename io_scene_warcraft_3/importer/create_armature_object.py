@@ -2,6 +2,7 @@ import bpy
 
 
 def create_armature_object(model, bpyObjects, boneSize):
+    print("creating armature")
     nodes = model.nodes
     pivotPoints = model.pivot_points
     bpyArmature = bpy.data.armatures.new(model.name + ' Nodes')
@@ -25,6 +26,11 @@ def create_armature_object(model, bpyObjects, boneSize):
         bone.head = nodePosition
         bone.tail = nodePosition
         bone.tail[1] += boneSize
+        if boneName in boneTypes.keys():
+            boneName = boneName + ".001"
+            if boneName in boneTypes.keys():
+                boneName = boneName + ".002"
+            node.node.name = boneName
         boneTypes[boneName] = node.type
 
     nodeTypes = list(nodeTypes)

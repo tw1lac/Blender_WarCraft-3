@@ -4,6 +4,7 @@ from io_scene_warcraft_3 import constants
 
 
 def create_material(model, setTeamColor):
+    print("creating materials")
     # preferences = bpy.context.preferences.addons.get('io_scene_warcraft_3') #['io_scene_warcraft_3'].preferences
     preferences = bpy.context.preferences.addons.get('io_scene_warcraft_3').preferences
     resourceFolder = ''
@@ -65,4 +66,15 @@ def create_material(model, setTeamColor):
             # textureSlotIndex += 1
             # bpyTexture.image = bpyImage
         bpyMaterials.append(bpyMaterial)
+
+    # bpyMaterial = bpyMaterials[warCraft3Mesh.material_id]
+    # bpyMesh.materials.append(bpyMaterial)
+    # # bpyImage = None
+    # # for textureSlot in bpyMaterial.texture_slots:
+    # #     if textureSlot:
+    # #         bpyImage = textureSlot.texture.image
+    # # if bpyImage:
+    # #     for triangleID in range(len(bpyObject.data.polygons)):
+    # #         bpyObject.data.uv_textures[0].data[triangleID].image = bpyImage
+
     return bpyMaterials

@@ -10,13 +10,17 @@ def get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices):
     vertexGroupsIds = set()
 
     for matrixGroup in matrixGroups:
-        if matrixGroup == 255 and matrixGroup > len(matrix):
-            matrixGroup = 0
-        vertexGroup = matrix[matrixGroup]
-        vertexGroups.append(vertexGroup)
+        if matrixGroup < len(matrix):
+            vertexGroup = matrix[matrixGroup]
+            vertexGroups.append(vertexGroup)
 
-        for vertexGroupId in vertexGroup:
-            vertexGroupsIds.add(vertexGroupId)
+            for vertexGroupId in vertexGroup:
+                vertexGroupsIds.add(vertexGroupId)
+
+    if len(vertexGroups) == 0:
+        for m_i in matrixIndices:
+            vertexGroups.append([])
+            vertexGroupsIds.add(m_i)
 
     vertexGroupsIds = list(vertexGroupsIds)
     vertexGroupsIds.sort()

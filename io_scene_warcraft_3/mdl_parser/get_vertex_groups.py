@@ -16,6 +16,11 @@ def get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices):
         for vertexGroupId in vertexGroup:
             vertexGroupsIds.add(vertexGroupId)
 
+    if len(vertexGroups) == 0:
+        for m_i in matrixIndices:
+            vertexGroups.append([])
+            vertexGroupsIds.add(m_i)
+
     vertexGroupsIds = list(vertexGroupsIds)
     vertexGroupsIds.sort()
 

@@ -37,6 +37,7 @@ def parse_materials(data, model):
                         else:
                             texture_chunk = re.split(",\n*\s*(?=TextureID)", chunk)[1]
                             layer.material_texture_id = parse_geoset_transformation(texture_chunk)
+                            layer.texture_id = int(get_between(info, "TextureID ", "{"))
                         # layer.texture_id = int(get_between(info, "TextureID ", ","))
                         # layer.material_texture_id = layer.texture_id
 

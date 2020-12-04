@@ -4,6 +4,7 @@ from io_scene_warcraft_3 import constants
 
 
 def create_object_actions(model, bpyObjects, frameTime):
+    print("creating object animations")
     geosetAnimations = model.geoset_animations
     sequences = model.sequences
     dataPathColor = 'color'

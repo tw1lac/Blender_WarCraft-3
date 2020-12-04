@@ -21,7 +21,9 @@ def parse_mdl(data, importProperties):
     model = WarCraft3Model()
     data_chunks = reader.chunks
     for chunk in data_chunks:
+        print("new data chunk")
         label = chunk.split(" ", 1)[0]
+        print(label)
         if label == "Version":
             parse_version(chunk)
         elif label == "Geoset":

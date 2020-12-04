@@ -20,7 +20,6 @@ def parse_geometry(data):
         # print(vertexPositionX, ", ", vertexPositionY, ", ", vertexPositionZ)
         mesh.vertices.append((vertexPositionX, vertexPositionY, vertexPositionZ))
 
-    # print(mesh.vertices)
     # Read and ignore
     chunks_to_skip = [[constants.CHUNK_VERTEX_NORMAL, '<3f'], [constants.CHUNK_FACE_TYPE_GROUP, '<I'], [constants.CHUNK_FACE_GROUP, '<I']]
     for chunk in chunks_to_skip:
@@ -90,23 +89,24 @@ def parse_geometry(data):
         minimumExtent = r.getf('<3f')
         maximumExtent = r.getf('<3f')
 
-    # parse and ignore Texture vertex groups
     if constants.MDX_CURRENT_VERSION > 800:
-        chunkId = r.getid((constants.CHUNK_TANGENTS, constants.CHUNK_SKIN, constants.CHUNK_TEXTURE_VERTEX_GROUP))
+        # parse and ignore Tangents
+        chunkId = r.getid(constants.CHUNK_TANGENTS)
+        tangentSize = r.getf('<I')[0]
+        r.skip(16 * tangentSize)  # 4 floats per tangent
 
-        if chunkId == constants.CHUNK_TANGENTS:
-            tangentSize = r.getf('<I')[0]
-            r.skip(16*tangentSize)  # 4 floats per tangent
-            chunkId = r.getid((constants.CHUNK_SKIN, constants.CHUNK_TEXTURE_VERTEX_GROUP))
+        # parse and Skin Weights
+        chunkId = r.getid(constants.CHUNK_SKIN)
+        skinSize = r.getf('<I')[0]
+        skin_weights = []
+        for i in range(skinSize):
+            skin_weights.append(r.getf('<B')[0])
 
-        if chunkId == constants.CHUNK_SKIN:
-            skinSize = r.getf('<I')[0]
-            r.skip(skinSize)
-            chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
+        for i in (range(int(skinSize/8))):
+            mesh.skin_weights.append(skin_weights[i*8:i*8+8])
 
-    else:
-        chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
-
+    # parse and ignore Texture vertex groups
+    chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
     textureVertexGroupCount = r.getf('<I')[0]
 
     # parse uv-coordinates
