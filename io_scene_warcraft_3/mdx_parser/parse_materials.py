@@ -15,6 +15,8 @@ def parse_materials(data, model):
 
         if constants.MDX_CURRENT_VERSION > 800:
             shader = r.gets(80)
+            if shader == "Shader_HD_DefaultUnit":
+                material.hd = True
             layerChunkDataSize = inclusiveSize - 92
         else:
             layerChunkDataSize = inclusiveSize - 12
