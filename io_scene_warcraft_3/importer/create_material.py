@@ -55,16 +55,50 @@ def create_material(model, setTeamColor):
         # bpyMaterial.node_tree.nodes.get("Material Output")
         bpyMaterial.diffuse_color = (1.0, 1.0, 1.0, 1.0)
         textureSlotIndex = 0
-        for bpyImage in bpyImagesOfLayer:
-            texImage = bpyMaterial.node_tree.nodes.new('ShaderNodeTexImage')
-            texImage.image = bpyImage
-            bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"),
-                                            bpyMaterial.node_tree.nodes.get("Principled BSDF").inputs.get("Base Color"))
-            # bpyMaterial.texture_slots.add()
-            # bpyTexture = bpy.data.textures.new(name=materialName, type='IMAGE')
-            # bpyMaterial.texture_slots[textureSlotIndex].texture = bpyTexture
-            # textureSlotIndex += 1
-            # bpyTexture.image = bpyImage
+        if material.hd:
+            bpyMaterial.blend_method = 'HASHED'
+            bpyMaterial.shadow_method = 'HASHED'
+            shader = bpyMaterial.node_tree.nodes.get("Principled BSDF")
+            diffuse = bpyMaterial.node_tree.nodes.new('ShaderNodeMixRGB')
+            diffuse.blend_type = 'COLOR'
+            i = 0
+            for bpyImage in bpyImagesOfLayer:
+                texImage = bpyMaterial.node_tree.nodes.new('ShaderNodeTexImage')
+                texImage.image = bpyImage
+                if i == 0:
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"), diffuse.inputs.get("Color1"))
+                    bpyMaterial.node_tree.links.new(diffuse.outputs.get("Color"), shader.inputs.get("Base Color"))
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Alpha"), shader.inputs.get("Alpha"))
+                elif i == 1:
+                    normalMap = bpyMaterial.node_tree.nodes.new('ShaderNodeNormalMap')
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"), normalMap.inputs.get("Color"))
+                    bpyMaterial.node_tree.links.new(normalMap.outputs.get("Normal"), shader.inputs.get("Normal"))
+                elif i == 2:
+                    orm = bpyMaterial.node_tree.nodes.new('ShaderNodeSeparateRGB')
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"), orm.inputs.get("Image"))
+                    # I don't currently know how to do occlusion
+                    bpyMaterial.node_tree.links.new(orm.outputs.get("G"), shader.inputs.get("Roughness"))
+                    bpyMaterial.node_tree.links.new(orm.outputs.get("B"), shader.inputs.get("Metallic"))
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Alpha"), diffuse.inputs.get("Fac"))
+                elif i == 3:
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"), shader.inputs.get("Emission"))
+                elif i == 4:
+                    bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"), diffuse.inputs.get("Color2"))
+                #else:
+                    # skip the environmental map, possibly change the world's map to it
+                print(bpyImage.filepath, " at place ", i)
+                i+=1
+        else:
+            for bpyImage in bpyImagesOfLayer:
+                texImage = bpyMaterial.node_tree.nodes.new('ShaderNodeTexImage')
+                texImage.image = bpyImage
+                bpyMaterial.node_tree.links.new(texImage.outputs.get("Color"),
+                                                bpyMaterial.node_tree.nodes.get("Principled BSDF").inputs.get("Base Color"))
+                # bpyMaterial.texture_slots.add()
+                # bpyTexture = bpy.data.textures.new(name=materialName, type='IMAGE')
+                # bpyMaterial.texture_slots[textureSlotIndex].texture = bpyTexture
+                # textureSlotIndex += 1
+                # bpyTexture.image = bpyImage
         bpyMaterials.append(bpyMaterial)
 
     # bpyMaterial = bpyMaterials[warCraft3Mesh.material_id]
