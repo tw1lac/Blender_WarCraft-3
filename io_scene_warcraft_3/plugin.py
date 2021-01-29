@@ -1,6 +1,7 @@
 if "bpy" not in locals():
     print("load plugin")
     import bpy
+    from . import WAR3_OT_export_mdl
     from .operators import WarCraft3OperatorImportMDX, WarCraft3OperatorAddSequenceToArmature, \
         WarCraft3OperatorRemoveSequenceToArmature, WarCraft3OperatorUpdateBoneSettings
     from .ui import WarCraft3PanelBone, WarCraft3PanelArmature
@@ -36,6 +37,11 @@ else:
 def menu_import_mdx(self, context):
     self.layout.operator(WarCraft3OperatorImportMDX.bl_idname, text='Warcraft 3 (.mdl/.mdx)')
 
+#
+# def menu_export_mdl(self, context):
+#     self.layout.operator_context = 'INVOKE_DEFAULT'
+#     self.layout.operator(WAR3_OT_export_mdl.WAR3_OT_export_mdl.bl_idname, text="test Exp Twilac(.mdl)")
+
 
 wc_classes = (
     WarCraft3OperatorImportMDX,
@@ -55,6 +61,7 @@ prop_classes = (
 
 
 def register():
+
     for cls in prop_classes:
         bpy.utils.register_class(cls)
     WarCraft3ArmatureProperties.bpy_type.warcraft_3 = bpy.props.PointerProperty(type=WarCraft3ArmatureProperties)
@@ -63,10 +70,13 @@ def register():
     for cls in wc_classes:
         bpy.utils.register_class(cls)
     bpy.types.TOPBAR_MT_file_import.append(menu_import_mdx)
+    # bpy.types.TOPBAR_MT_file_export.append(menu_export_mdl)
 
 
 def unregister():
     bpy.types.TOPBAR_MT_file_import.remove(menu_import_mdx)
+    # bpy.types.TOPBAR_MT_file_import.remove(menu_export_mdl)
+
     del WarCraft3BoneProperties.bpy_type.warcraft_3
     del WarCraft3ArmatureProperties.bpy_type.warcraft_3
     for cls in reversed(wc_classes):
