@@ -7,38 +7,37 @@ ACTION_NAME_UNANIMATED = '#UNANIMATED'
 
 
 def set_animation(self, context):
-    setAnimationName = context.armature.warcraft_3.sequencesList[context.armature.warcraft_3.sequencesListIndex].name
-    if len(setAnimationName) and bpy.data.actions.get(setAnimationName, None):
-        armatureObject = context.object
-        if armatureObject.animation_data == None:
-            armatureObject.animation_data_create()
-        setAction = bpy.data.actions[setAnimationName]
-        armatureObject.animation_data.action = setAction
-        bpy.context.scene.frame_start = setAction.frame_range[0]
-        bpy.context.scene.frame_end = setAction.frame_range[1]
+    set_animation_name = context.armature.warcraft_3.sequencesList[context.armature.warcraft_3.sequencesListIndex].name
+    if len(set_animation_name) and bpy.data.actions.get(set_animation_name, None):
+        prepare_action(context, set_animation_name)
         for action in bpy.data.actions:
-            for object in bpy.context.scene.objects:
-                setObjectAnimationName = setAnimationName + ' ' + object.name
-                if action.name == setObjectAnimationName:
-                    if object.animation_data == None:
-                        object.animation_data_create()
-                    object.animation_data.action = action
+            for bpy_object in bpy.context.scene.objects:
+                set_object_animation_name = set_animation_name + ' ' + bpy_object.name
+                if action.name == set_object_animation_name:
+                    if bpy_object.animation_data is None:
+                        bpy_object.animation_data_create()
+                    bpy_object.animation_data.action = action
     else:
-        action = bpy.data.actions.get(ACTION_NAME_UNANIMATED, None)
+        unanimated = ACTION_NAME_UNANIMATED
+        action = bpy.data.actions.get(unanimated, None)
         if action:
-            armatureObject = context.object
-            if armatureObject.animation_data == None:
-                armatureObject.animation_data_create()
-            setAction = bpy.data.actions[ACTION_NAME_UNANIMATED]
-            armatureObject.animation_data.action = setAction
-            bpy.context.scene.frame_start = setAction.frame_range[0]
-            bpy.context.scene.frame_end = setAction.frame_range[1]
-            for object in bpy.context.scene.objects:
-                objectActionName = ACTION_NAME_UNANIMATED + ' ' + object.name
-                if bpy.data.actions.get(objectActionName, None):
-                    if object.animation_data == None:
-                        object.animation_data_create()
-                    object.animation_data.action = bpy.data.actions[objectActionName]
+            prepare_action(context, unanimated)
+            for bpy_object in bpy.context.scene.objects:
+                object_action_name = unanimated + ' ' + bpy_object.name
+                if bpy.data.actions.get(object_action_name, None):
+                    if bpy_object.animation_data is None:
+                        bpy_object.animation_data_create()
+                    bpy_object.animation_data.action = bpy.data.actions[object_action_name]
+
+
+def prepare_action(context, unanimated):
+    armature_object = context.object
+    if armature_object.animation_data is None:
+        armature_object.animation_data_create()
+    set_action = bpy.data.actions[unanimated]
+    armature_object.animation_data.action = set_action
+    bpy.context.scene.frame_start = set_action.frame_range[0]
+    bpy.context.scene.frame_end = set_action.frame_range[1]
 
 
 def set_team_color_property(self, context):
@@ -48,24 +47,24 @@ def set_team_color_property(self, context):
 def set_bone_node_type(self, context):
     bone = context.active_bone
     if bone:
-        nodeType = bone.warcraft_3.nodeType
-        object = context.object
-        boneGroup = object.pose.bone_groups.get(nodeType.lower() + 's', None)
-        if not boneGroup:
-            if nodeType in {'BONE', 'ATTACHMENT', 'COLLISION_SHAPE', 'EVENT', 'HELPER'}:
+        node_type = bone.warcraft_3.nodeType
+        bpy_object = context.object
+        bone_group = bpy_object.pose.bone_groups.get(node_type.lower() + 's', None)
+        if not bone_group:
+            if node_type in {'BONE', 'ATTACHMENT', 'COLLISION_SHAPE', 'EVENT', 'HELPER'}:
                 bpy.ops.pose.group_add()
-                boneGroup = object.pose.bone_groups.active
-                boneGroup.name = nodeType.lower() + 's'
-                if nodeType == 'BONE':
-                    boneGroup.color_set = 'THEME04'
-                elif nodeType == 'ATTACHMENT':
-                    boneGroup.color_set = 'THEME09'
-                elif nodeType == 'COLLISION_SHAPE':
-                    boneGroup.color_set = 'THEME02'
-                elif nodeType == 'EVENT':
-                    boneGroup.color_set = 'THEME03'
-                elif nodeType == 'HELPER':
-                    boneGroup.color_set = 'THEME01'
+                bone_group = bpy_object.pose.bone_groups.active
+                bone_group.name = node_type.lower() + 's'
+                if node_type == 'BONE':
+                    bone_group.color_set = 'THEME04'
+                elif node_type == 'ATTACHMENT':
+                    bone_group.color_set = 'THEME09'
+                elif node_type == 'COLLISION_SHAPE':
+                    bone_group.color_set = 'THEME02'
+                elif node_type == 'EVENT':
+                    bone_group.color_set = 'THEME03'
+                elif node_type == 'HELPER':
+                    bone_group.color_set = 'THEME01'
             else:
-                boneGroup = None
-        object.pose.bones[bone.name].bone_group = boneGroup
+                bone_group = None
+        bpy_object.pose.bones[bone.name].bone_group = bone_group

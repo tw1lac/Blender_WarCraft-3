@@ -1,8 +1,9 @@
+from ..classes.WarCraft3Model import WarCraft3Model
 from ..classes.WarCraft3Texture import WarCraft3Texture
 from .mdl_reader import extract_bracket_content, chunkifier
 
 
-def parse_textures(data, model):
+def parse_textures(data, model: WarCraft3Model):
     textures_string = extract_bracket_content(data)
     texture_chunks = chunkifier(textures_string)
 

@@ -42,13 +42,15 @@ def extract_bracket_content(stuff):
     end_bracket_index = stuff.find("}")
     bracket_count = count_brackets(0, stuff[0:end_bracket_index + 1])
     # print(stuff[split_start:end_bracket_index + 1])
-    # print(end_bracket_index)
+    # print("end index:", end_bracket_index)
     while bracket_count > 0:
-        # print(bracket_count)
+        # print("bracket count: ", bracket_count)
         end_bracket_index = stuff.find("}", end_bracket_index + 1)
         bracket_count = count_brackets(0, stuff[0:end_bracket_index+1])
     # print("found stuff!")
     # print(stuff[split_start:end_bracket_index].strip())
+    if end_bracket_index == -1:
+        end_bracket_index = len(stuff)
     return stuff[split_start:end_bracket_index].strip()
 
 
@@ -79,6 +81,7 @@ def get_between(line, start, end):
 
 
 def extract_float_values(line):
+    # print("exact float from \"" + line + "\"")
     no_bracket_line = extract_bracket_content(line).strip(',')
     if no_bracket_line == '':
         no_bracket_line = line.strip(',')
@@ -86,7 +89,10 @@ def extract_float_values(line):
     line_values = []
     # if re.match('\\s*\\d+.*\\d*\\s*', no_bracket_line):
     if re.match('[\\s\\S]*\\d+[\\s\\S]*', no_bracket_line):
-        for v_string in line_value_strings:
+        for l_string in line_value_strings:
+            v_strings = re.split("[^\\d.\\-]+", l_string.strip())
+            v_string = v_strings[len(v_strings)-1]
+            # print("l_string:", l_string, "v_strings:", v_strings)
             line_values.append(float(v_string))
     return line_values
 

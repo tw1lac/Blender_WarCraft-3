@@ -1,8 +1,9 @@
+from ..classes.WarCraft3Model import WarCraft3Model
 from ..classes.WarCraft3Sequence import WarCraft3Sequence
 from .mdl_reader import extract_bracket_content, chunkifier
 
 
-def parse_sequences(data, model):
+def parse_sequences(data, model: WarCraft3Model):
     sequences_string = extract_bracket_content(data)
     sequence_chunks = chunkifier(sequences_string)
 
@@ -20,21 +21,21 @@ def parse_sequences(data, model):
                 sequence.interval_end = int(interval[1].strip())
 
             if label == "MoveSpeed":
-                moveSpeed = float(info.strip().replace(",", "").split(" ")[1])
+                sequence.move_speed = float(info.strip().replace(",", "").split(" ")[1])
 
             if label == "NonLooping":
                 flags = "NonLooping"
 
             if label == "MinimumExtent":
                 extent = extract_bracket_content(info).strip().split(",")
-                minimumExtent = (float(extent[0]), float(extent[1]), float(extent[2]))
+                minimum_extent = (float(extent[0]), float(extent[1]), float(extent[2]))
 
             if label == "MaximumExtent":
                 extent = extract_bracket_content(info).strip().split(",")
-                maximumExtent = (float(extent[0]), float(extent[1]), float(extent[2]))
+                maximum_extent = (float(extent[0]), float(extent[1]), float(extent[2]))
 
             if label == "BoundsRadius":
-                boundsRadius = float(info.strip().replace(",", "").split(" ")[1])
+                bounds_radius = float(info.strip().replace(",", "").split(" ")[1])
 
             if label == "Rarity":
                 rarity = float(info.strip().replace(",", "").split(" ")[1])

@@ -1,29 +1,30 @@
 from ..classes.WarCraft3CollisionShape import WarCraft3CollisionShape
 from . import binary_reader
 from .parse_node import parse_node
+from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_collision_shapes(data, model):
-    dataSize = len(data)
+def parse_collision_shapes(data, model: WarCraft3Model):
+    data_size = len(data)
     r = binary_reader.Reader(data)
 
-    while r.offset < dataSize:
+    while r.offset < data_size:
 
-        collisionShape = WarCraft3CollisionShape()
-        collisionShape.node = parse_node(r)
-        type = r.getf('<I')[0]
+        collision_shape = WarCraft3CollisionShape()
+        collision_shape.node = parse_node(r)
+        collision_type = r.getf('<I')[0]
 
-        if type == 0:
-            verticesCount = 2
-        elif type == 2:
-            verticesCount = 1
+        if collision_type == 0:
+            vertices_count = 2
+        elif collision_type == 2:
+            vertices_count = 1
         else:
-            raise Exception('UNSUPPORTED COLLISION SHAPE TYPE:', type)
+            raise Exception('UNSUPPORTED COLLISION SHAPE TYPE:', collision_type)
 
-        for _ in range(verticesCount):
+        for _ in range(vertices_count):
             position = r.getf('<3f')
 
-        if type == 2:
-            boundsRadius = r.getf('<f')[0]
+        if collision_type == 2:
+            bounds_radius = r.getf('<f')[0]
 
-        model.nodes.append(collisionShape)
+        model.nodes.append(collision_shape)

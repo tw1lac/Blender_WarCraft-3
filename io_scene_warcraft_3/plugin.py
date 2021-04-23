@@ -29,7 +29,7 @@ else:
         importlib.reload(importer_reload)
         importlib.reload(parser_reload)
         importlib.reload(utils)
-    except:
+    except ImportError:
         print("could not reload module")
 
 

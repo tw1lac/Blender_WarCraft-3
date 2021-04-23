@@ -26,7 +26,7 @@ def parse_node(data):
 
     for point in [bone_info.find("Translation"), bone_info.find("Rotation"), bone_info.find("Scaling")]:
         if point != -1:
-            if re.match('[(Translation)(Rotation)(Scaling)]+ \d', bone_info[point:]):
+            if re.match('((Translation)|(Rotation)|(Scaling)) \\d', bone_info[point:]):
                 start_points.append(point)
 
     if len(start_points) == 0:

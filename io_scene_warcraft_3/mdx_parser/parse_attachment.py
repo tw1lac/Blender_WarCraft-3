@@ -6,13 +6,13 @@ from .parse_node import parse_node
 
 def parse_attachment(data, model):
     r = binary_reader.Reader(data)
-    dataSize = len(data)
+    data_size = len(data)
     attachment = WarCraft3Attachment()
     attachment.node = parse_node(r)
     path = r.gets(260)
-    attachmentId = r.getf('<I')[0]
+    attachment_id = r.getf('<I')[0]
 
-    if r.offset < dataSize:
+    if r.offset < data_size:
         parse_attachment_visibility(r)
 
     model.nodes.append(attachment)

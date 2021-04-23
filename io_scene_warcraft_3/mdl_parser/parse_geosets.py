@@ -1,13 +1,14 @@
 from .mdl_reader import extract_bracket_content, chunkifier, get_between
 from .parse_geometry import parse_geometry
-from .parse_geoset_animations import parse_geoset_animations
+from ..classes.WarCraft3Mesh import WarCraft3Mesh
+from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_geosets(data, model):
+def parse_geosets(data, model: WarCraft3Model):
     geoset_data_internal = extract_bracket_content(data)
     geoset_data_chunks = chunkifier(geoset_data_internal)
 
-    mesh = parse_geometry(geoset_data_chunks)
+    mesh: WarCraft3Mesh = parse_geometry(geoset_data_chunks)
 
     if data.find("MaterialID") > -1:
         mesh.material_id = int(get_between(data, "MaterialID ", ","))

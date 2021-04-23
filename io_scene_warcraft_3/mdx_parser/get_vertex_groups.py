@@ -1,28 +1,28 @@
-def get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices):
+def get_vertex_groups(matrix_groups, matrix_groups_sizes, matrix_indices):
     i = 0
     matrix = []
 
-    for matrixGroupSize in matrixGroupsSizes:
-        matrix.append(matrixIndices[i: i + matrixGroupSize])
+    for matrixGroupSize in matrix_groups_sizes:
+        matrix.append(matrix_indices[i: i + matrixGroupSize])
         i += matrixGroupSize
 
-    vertexGroups = []
-    vertexGroupsIds = set()
+    vertex_groups = []
+    vertex_groups_ids = set()
 
-    for matrixGroup in matrixGroups:
+    for matrixGroup in matrix_groups:
         if matrixGroup < len(matrix):
-            vertexGroup = matrix[matrixGroup]
-            vertexGroups.append(vertexGroup)
+            vertex_group = matrix[matrixGroup]
+            vertex_groups.append(vertex_group)
 
-            for vertexGroupId in vertexGroup:
-                vertexGroupsIds.add(vertexGroupId)
+            for vertexGroupId in vertex_group:
+                vertex_groups_ids.add(vertexGroupId)
 
-    if len(vertexGroups) == 0:
-        for m_i in matrixIndices:
-            vertexGroups.append([])
-            vertexGroupsIds.add(m_i)
+    if len(vertex_groups) == 0:
+        for m_i in matrix_indices:
+            vertex_groups.append([])
+            vertex_groups_ids.add(m_i)
 
-    vertexGroupsIds = list(vertexGroupsIds)
-    vertexGroupsIds.sort()
+    vertex_groups_ids = list(vertex_groups_ids)
+    vertex_groups_ids.sort()
 
-    return vertexGroups, vertexGroupsIds
+    return vertex_groups, vertex_groups_ids

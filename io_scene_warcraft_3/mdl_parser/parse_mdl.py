@@ -1,3 +1,4 @@
+from ..classes.MDXImportProperties import MDXImportProperties
 from ..classes.WarCraft3Model import WarCraft3Model
 from ..importer import importer
 from .mdl_reader import Reader
@@ -16,16 +17,17 @@ from .parse_textures import parse_textures
 from .parse_version import parse_version
 
 
-def parse_mdl(data, importProperties):
+def parse_mdl(data, import_properties: MDXImportProperties):
     reader = Reader(data)
     model = WarCraft3Model()
+    model.file = import_properties.mdx_file_path
     data_chunks = reader.chunks
     for chunk in data_chunks:
-        print("new data chunk")
+        # print("new data chunk")
         label = chunk.split(" ", 1)[0]
-        print(label)
+        # print(label)
         if label == "Version":
-            parse_version(chunk)
+            parse_version(chunk, model)
         elif label == "Geoset":
             parse_geosets(chunk, model)
         elif label == "Textures":
@@ -63,7 +65,7 @@ def parse_mdl(data, importProperties):
         elif label == "Ugg":
             print("X not implemented yet")
 
-    importer.load_warcraft_3_model(model, importProperties)
+    importer.load_warcraft_3_model(model, import_properties)
 
 
 # this is for commandline testing
@@ -78,7 +80,7 @@ def parse_mdl2(data):
         # print("label: ", label)
         if label == "Version":
             print("parse: Version")
-            parse_version(chunk)
+            parse_version(chunk, model)
 
         elif label == "Geoset":
             print("parse: Geoset")

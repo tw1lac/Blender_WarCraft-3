@@ -6,7 +6,7 @@ def parse_material_alpha(r):
     alpha = WarCraft3GeosetTransformation()
     alpha.tracks_count = r.getf('<I')[0]
     alpha.interpolation_type = r.getf('<I')[0]
-    globalSequenceId = r.getf('<I')[0]
+    global_sequence_id = r.getf('<I')[0]
 
     for _ in range(alpha.tracks_count):
         time = r.getf('<I')[0]
@@ -15,7 +15,7 @@ def parse_material_alpha(r):
         alpha.values.append(value)
 
         if alpha.interpolation_type > constants.INTERPOLATION_TYPE_LINEAR:
-            inTan = r.getf('<f')[0]
-            outTan = r.getf('<f')[0]
+            in_tan = r.getf('<f')[0]
+            out_tan = r.getf('<f')[0]
 
     return alpha

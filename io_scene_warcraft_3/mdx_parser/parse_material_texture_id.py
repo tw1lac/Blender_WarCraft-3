@@ -3,17 +3,17 @@ from .. import constants
 
 
 def parse_material_texture_id(r):
-    textureId = WarCraft3GeosetTransformation()
-    textureId.tracks_count = r.getf('<I')[0]
-    textureId.interpolation_type = r.getf('<I')[0]
-    globalSequenceId = r.getf('<I')[0]
+    texture_id = WarCraft3GeosetTransformation()
+    texture_id.tracks_count = r.getf('<I')[0]
+    texture_id.interpolation_type = r.getf('<I')[0]
+    global_sequence_id = r.getf('<I')[0]
 
-    for _ in range(textureId.tracks_count):
+    for _ in range(texture_id.tracks_count):
         time = r.getf('<I')[0]
         value = r.getf('<I')[0]    # texture id value
-        textureId.times.append(time)
-        textureId.values.append(value)
+        texture_id.times.append(time)
+        texture_id.values.append(value)
 
-        if textureId.interpolation_type > constants.INTERPOLATION_TYPE_LINEAR:
-            inTan = r.getf('<f')[0]
-            outTan = r.getf('<f')[0]
+        if texture_id.interpolation_type > constants.INTERPOLATION_TYPE_LINEAR:
+            in_tan = r.getf('<f')[0]
+            out_tan = r.getf('<f')[0]

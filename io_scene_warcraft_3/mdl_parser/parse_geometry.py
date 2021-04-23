@@ -9,9 +9,9 @@ def parse_geometry(geoset_chunks):
     mesh = WarCraft3Mesh()
     mesh.name = 'temp'
 
-    matrixIndices = []
-    matrixGroupsSizes = []
-    matrixGroups = []
+    matrix_indices = []
+    matrix_groups_sizes = []
+    matrix_groups = []
 
     for data_chunk in geoset_chunks:
         label = data_chunk.split(" ", 1)[0]
@@ -37,17 +37,17 @@ def parse_geometry(geoset_chunks):
 
         if label == "VertexGroup":
             vert_groups = extract_int_values(data_chunk)
-            matrixGroups = vert_groups
+            matrix_groups = vert_groups
 
         if label == "Groups":
             matrices = chunkifier(extract_bracket_content(data_chunk))
 
             for matrix in matrices:
                 matrix_values = extract_int_values(matrix)
-                matrixGroupsSizes.append(len(matrix_values))
+                matrix_groups_sizes.append(len(matrix_values))
 
                 for value in matrix_values:
-                    matrixIndices.append(value)
+                    matrix_indices.append(value)
 
         if label == "TVertices":
             t_vertices = chunkifier(extract_bracket_content(data_chunk))
@@ -62,8 +62,8 @@ def parse_geometry(geoset_chunks):
             for weight in weights:
                 mesh.skin_weights.append(extract_int_values(weight))
 
-    vertexGroups, vertexGroupsIds = get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices)
-    mesh.vertex_groups = vertexGroups
-    mesh.vertex_groups_ids = vertexGroupsIds
+    vertex_groups, vertex_groups_ids = get_vertex_groups(matrix_groups, matrix_groups_sizes, matrix_indices)
+    mesh.vertex_groups = vertex_groups
+    mesh.vertex_groups_ids = vertex_groups_ids
 
     return mesh

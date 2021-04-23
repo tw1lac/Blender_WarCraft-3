@@ -1,3 +1,5 @@
+import os
+
 import bpy
 
 from io_scene_warcraft_3.classes.MDXImportProperties import MDXImportProperties
@@ -53,9 +55,9 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
     def draw(self, context):
         layout = self.layout
         split = layout.split(factor=0.9)
-        subSplit = split.split(factor=0.5)
-        subSplit.label(text='Team Color:')
-        subSplit.prop(self, 'setTeamColor', text='')
+        sub_split = split.split(factor=0.5)
+        sub_split.label(text='Team Color:')
+        sub_split.prop(self, 'setTeamColor', text='')
         split.prop(self, 'teamColor', text='')
         layout.prop(self, 'boneSize')
         layout.prop(self, 'useCustomFPS')
@@ -63,17 +65,18 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
             layout.prop(self, 'animationFPS')
 
     def execute(self, context):
-        importProperties = MDXImportProperties()
-        importProperties.mdx_file_path = self.filepath
-        importProperties.set_team_color = self.setTeamColor
-        importProperties.bone_size = self.boneSize
-        importProperties.use_custom_fps = self.useCustomFPS
-        importProperties.fps = self.animationFPS
-        importProperties.calculate_frame_time()
+        import_properties = MDXImportProperties()
+        import_properties.mdx_file_path = self.filepath
+        import_properties.team_color = self.setTeamColor
+        import_properties.bone_size = self.boneSize
+        import_properties.use_custom_fps = self.useCustomFPS
+        import_properties.fps = self.animationFPS
+        import_properties.calculate_frame_time()
+        constants.os_path_separator = os.path
         if ".mdl" in self.filepath:
-            load_mdl(importProperties)
+            load_mdl(import_properties)
         else:
-            load_mdx(importProperties)
+            load_mdx(import_properties)
         return {'FINISHED'}
 
     def invoke(self, context, event):

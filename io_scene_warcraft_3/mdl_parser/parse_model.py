@@ -1,4 +1,7 @@
-def parse_model(data, model):
+from io_scene_warcraft_3.classes.WarCraft3Model import WarCraft3Model
+
+
+def parse_model(data, model: WarCraft3Model):
 
     model.name = data.split(" ")[1].replace("\"", "")
 
