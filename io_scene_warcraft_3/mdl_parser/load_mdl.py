@@ -2,7 +2,7 @@ from .parse_mdl import parse_mdl, parse_mdl2
 from ..classes.MDXImportProperties import MDXImportProperties
 
 
-def load_mdl(import_properties: MDXImportProperties):
+def load_mdl(import_properties):
     mdx_file = open(import_properties.mdx_file_path, 'r')
     mdx_file_data = mdx_file.read()
     mdx_file.close()

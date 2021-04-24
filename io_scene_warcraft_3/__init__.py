@@ -12,3 +12,12 @@ bl_info = {
     }
 
 
+if "register" not in locals():
+    print("init first load")
+    from .plugin import register, unregister
+else:
+    print("init reload")
+    import importlib
+    from . import plugin
+    importlib.reload(plugin)
+

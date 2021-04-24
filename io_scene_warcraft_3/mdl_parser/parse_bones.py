@@ -4,7 +4,7 @@ from .parse_node import parse_node
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_bones(data, model: WarCraft3Model):
+def parse_bones(data, model):
     bone = WarCraft3Bone()
     bone.geoset_id = 0
     geoset_id = get_between(data, "GeosetId", ",")

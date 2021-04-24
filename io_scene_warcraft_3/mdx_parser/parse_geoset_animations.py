@@ -7,7 +7,7 @@ from .parse_geoset_color import parse_geoset_color
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_geoset_animations(data, model: WarCraft3Model):
+def parse_geoset_animations(data, model):
     r = binary_reader.Reader(data)
     data_size = len(data)
 

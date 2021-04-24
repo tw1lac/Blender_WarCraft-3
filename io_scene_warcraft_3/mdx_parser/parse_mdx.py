@@ -18,7 +18,7 @@ from .parse_textures import parse_textures
 from .parse_version import parse_version
 
 
-def parse_mdx(data, import_properties: MDXImportProperties):
+def parse_mdx(data, import_properties):
     data_size = len(data)
     r = binary_reader.Reader(data)
     r.getid(constants.CHUNK_MDX_MODEL)

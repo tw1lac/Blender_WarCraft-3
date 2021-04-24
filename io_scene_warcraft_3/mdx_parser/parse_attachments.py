@@ -3,7 +3,7 @@ from .parse_attachment import parse_attachment
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_attachments(data, model: WarCraft3Model):
+def parse_attachments(data, model):
     data_size = len(data)
     r = binary_reader.Reader(data)
 

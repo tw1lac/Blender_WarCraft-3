@@ -3,7 +3,7 @@ from ..classes.WarCraft3Texture import WarCraft3Texture
 from . import binary_reader
 
 
-def parse_textures(data, model: WarCraft3Model):
+def parse_textures(data, model):
     r = binary_reader.Reader(data)
     data_size = len(data)
 

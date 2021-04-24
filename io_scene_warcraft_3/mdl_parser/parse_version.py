@@ -3,7 +3,7 @@ from .. import constants
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_version(data, model: WarCraft3Model):
+def parse_version(data, model):
     version_data_internal = extract_bracket_content(data)
     version = version_data_internal.replace(",", "").split(" ")[1].strip()
     print("mdl version: ", version)

@@ -2,7 +2,7 @@ from . import binary_reader
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_model(data, model: WarCraft3Model):
+def parse_model(data, model):
     r = binary_reader.Reader(data)
     model.name = r.gets(80)
     animation_file_name = r.gets(260)

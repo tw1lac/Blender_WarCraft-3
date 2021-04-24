@@ -3,7 +3,7 @@ from ..classes.WarCraft3Sequence import WarCraft3Sequence
 from .mdl_reader import extract_bracket_content, chunkifier
 
 
-def parse_sequences(data, model: WarCraft3Model):
+def parse_sequences(data, model):
     sequences_string = extract_bracket_content(data)
     sequence_chunks = chunkifier(sequences_string)
 

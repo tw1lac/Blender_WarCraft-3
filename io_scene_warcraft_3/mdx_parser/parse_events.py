@@ -6,7 +6,7 @@ from .parse_tracks import parse_tracks
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_events(data, model: WarCraft3Model):
+def parse_events(data, model):
     data_size = len(data)
     r = binary_reader.Reader(data)
 

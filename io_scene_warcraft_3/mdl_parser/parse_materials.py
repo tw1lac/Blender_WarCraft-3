@@ -6,7 +6,7 @@ from .mdl_reader import extract_bracket_content, chunkifier, get_between
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_materials(data, model: WarCraft3Model):
+def parse_materials(data, model):
     # print("parse_materials")
     materials_string = extract_bracket_content(data)
     material_chunks = chunkifier(materials_string)

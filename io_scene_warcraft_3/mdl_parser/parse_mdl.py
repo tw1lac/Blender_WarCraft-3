@@ -17,7 +17,7 @@ from .parse_textures import parse_textures
 from .parse_version import parse_version
 
 
-def parse_mdl(data, import_properties: MDXImportProperties):
+def parse_mdl(data, import_properties):
     reader = Reader(data)
     model = WarCraft3Model()
     model.file = import_properties.mdx_file_path

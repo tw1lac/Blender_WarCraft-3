@@ -5,7 +5,7 @@ from .. import constants
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_materials(data, model: WarCraft3Model):
+def parse_materials(data, model):
     r = binary_reader.Reader(data)
     data_size = len(data)
 

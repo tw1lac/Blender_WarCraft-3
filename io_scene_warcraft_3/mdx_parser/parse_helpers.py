@@ -4,7 +4,7 @@ from .parse_node import parse_node
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_helpers(data, model: WarCraft3Model):
+def parse_helpers(data, model):
     data_size = len(data)
     r = binary_reader.Reader(data)
 

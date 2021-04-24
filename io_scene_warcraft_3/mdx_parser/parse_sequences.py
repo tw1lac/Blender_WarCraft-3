@@ -3,7 +3,7 @@ from ..classes.WarCraft3Sequence import WarCraft3Sequence
 from . import binary_reader
 
 
-def parse_sequences(data, model: WarCraft3Model):
+def parse_sequences(data, model):
     r = binary_reader.Reader(data)
     data_size = len(data)
 

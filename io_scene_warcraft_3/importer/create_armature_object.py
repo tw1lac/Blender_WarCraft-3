@@ -29,11 +29,11 @@ def create_armature_object(model, bpy_objects, bone_size):
         bone.head = node_position
         bone.tail = node_position
         bone.tail[1] += bone_size
-        # if bone_name in bone_types.keys():
-        #     bone_name = bone_name + ".001"
-        #     if bone_name in bone_types.keys():
-        #         bone_name = bone_name + ".002"
-        #     node.node.name = bone_name
+        if bone_name in bone_types.keys():
+            bone_name = bone_name + ".001"
+            if bone_name in bone_types.keys():
+                bone_name = bone_name + ".002"
+            node.node.name = bone_name
         bone_types[bone_name] = node.type
 
     node_types = list(node_types)

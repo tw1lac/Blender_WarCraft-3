@@ -7,7 +7,7 @@ from . import ui
 
 
 def menu_import_mdx(self, context):
-    self.layout.operator(operators.WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdx)')
+    self.layout.operator(operators.WarCraft3OperatorImportMDX.bl_idname, text='WarCraft 3 (.mdl/.mdx)')
 
 
 def register():
@@ -40,3 +40,4 @@ def unregister():
     bpy.utils.unregister_class(operators.WarCraft3OperatorRemoveSequenceToArmature)
     bpy.utils.unregister_class(operators.WarCraft3OperatorAddSequenceToArmature)
     bpy.utils.unregister_class(preferences.WarCraft3Preferences)
+

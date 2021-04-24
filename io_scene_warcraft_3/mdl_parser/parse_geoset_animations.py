@@ -8,7 +8,7 @@ from ..classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformatio
 from ..classes.WarCraft3Model import WarCraft3Model
 
 
-def parse_geoset_animations(data, model: WarCraft3Model):
+def parse_geoset_animations(data, model):
     geoset_animation = WarCraft3GeosetAnimation()
     geoset_animation.geoset_id = 0
     geoset_id = get_between(data, "GeosetId", ",")
@@ -35,8 +35,10 @@ def parse_geoset_animations(data, model: WarCraft3Model):
             if info.find("static Alpha") > -1:
                 geoset_animation.animation_alpha = make_fake_animation(float(get_between(info, "static Alpha ", ",")))
             else:
-                # print("animation_data:", re.split("\\s*(?=Alpha)", animation_data, 1))
-                alpha_chunk = re.split("\\s*(?=Alpha)", animation_data, 1)[1]
+                # print(animation_data)
+                split = re.split("\\s*(?=Alpha)", animation_data, 1)
+                # print("animation_data:", split)
+                alpha_chunk = split[len(split)-1]
                 geoset_animation.animation_alpha = parse_geoset_transformation(alpha_chunk)
             # layer.material_alpha = float(get_between(info, "Alpha ", ","))
 

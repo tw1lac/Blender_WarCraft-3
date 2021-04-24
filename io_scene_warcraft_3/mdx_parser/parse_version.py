@@ -3,7 +3,7 @@ from ..classes.WarCraft3Model import WarCraft3Model
 from ..mdx_parser import binary_reader
 
 
-def parse_version(data, model: WarCraft3Model):
+def parse_version(data, model):
     r = binary_reader.Reader(data)
     version = r.getf('<I')[0]
 

@@ -9,9 +9,9 @@ from .. import constants
 def create_material(model, team_color):
     print("creating materials")
     # preferences = bpy.context.preferences.addons.get('io_scene_warcraft_3') #['io_scene_warcraft_3'].preferences
-    preferences = bpy.context.user_preferences.addons['Blender_WarCraft-3_2-79'].preferences
+    preferences = bpy.context.user_preferences.addons['io_scene_warcraft_3'].preferences
 
-    resource_folder: str = preferences.resourceFolder
+    resource_folder = preferences.resourceFolder
     alternative_resource_folder = preferences.alternativeResourceFolder
     if resource_folder == '':
         print("No resource folder set in addon preferences")

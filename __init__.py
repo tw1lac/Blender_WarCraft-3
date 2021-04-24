@@ -1,3 +1,4 @@
+import bpy
 
 bl_info = {
     'name': 'WarCraft 3',
@@ -11,4 +12,5 @@ bl_info = {
     'tracker_url': 'https://github.com/PavelBlend/Blender_WarCraft-3/issues'
     }
 
+from .plugin import register, unregister
 

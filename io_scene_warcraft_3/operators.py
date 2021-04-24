@@ -14,8 +14,8 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
     bl_description = 'Import *.mdl/*.mdx files (3d models of WarCraft 3)'
     bl_options = {'UNDO'}
 
-    filename_ext = '.mdx'
-    filter_glob = bpy.props.StringProperty(default='*.mdx', options={'HIDDEN'})
+    filename_ext = ['.mdx', ".mdl"]
+    filter_glob = bpy.props.StringProperty(default='*.mdx;*.mdl', options={'HIDDEN'})
     filepath = bpy.props.StringProperty(name='File Path', maxlen=1024, default='')
     useCustomFPS = bpy.props.BoolProperty(name='Use Custom FPS', default=False)
     animationFPS = bpy.props.FloatProperty(name='Animation FPS', default=30.0, min=1.0, max=1000.0)
