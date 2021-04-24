@@ -4,9 +4,11 @@ from io_scene_warcraft_3 import constants
 
 
 def create_object_actions(model, bpy_objects, frame_time):
+    print("creating object animations")
     geoset_animations = model.geoset_animations
     sequences = model.sequences
     data_path_color = 'color'
+
     for geoset_animation in geoset_animations:
         geoset_id = geoset_animation.geoset_id
         action = bpy.data.actions.new(name='#UNANIMATED' + ' ' + bpy_objects[geoset_id].name)
@@ -18,6 +20,7 @@ def create_object_actions(model, bpy_objects, frame_time):
         color_g.keyframe_points.insert(0.0, 1.0)
         color_b.keyframe_points.insert(0.0, 1.0)
         color_a.keyframe_points.insert(0.0, 1.0)
+
     for sequence in sequences:
         interval_start = sequence.interval_start
         interval_end = sequence.interval_end
@@ -31,6 +34,7 @@ def create_object_actions(model, bpy_objects, frame_time):
             color_b = None
             color_a = None
             interpolation_type = constants.INTERPOLATION_TYPE_NAMES[color_anim.interpolation_type]
+
             for index in range(color_anim.tracks_count):
                 time = color_anim.times[index]
                 color = color_anim.values[index]
@@ -61,6 +65,7 @@ def create_object_actions(model, bpy_objects, frame_time):
                 color_b = action.fcurves.new(data_path_color, 2)
                 color_b.keyframe_points.insert(0, 1.0)
             interpolation_type = constants.INTERPOLATION_TYPE_NAMES[alpha_anim.interpolation_type]
+
             for index in range(alpha_anim.tracks_count):
                 time = alpha_anim.times[index]
                 alpha = alpha_anim.values[index]

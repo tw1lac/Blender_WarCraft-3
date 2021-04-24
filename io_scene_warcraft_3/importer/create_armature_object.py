@@ -1,7 +1,13 @@
+from typing import List
+
 import bpy
+from bpy.types import Object
+
+from io_scene_warcraft_3.classes.WarCraft3Model import WarCraft3Model
 
 
 def create_armature_object(model, bpy_objects, bone_size):
+    print("creating armature")
     nodes = model.nodes
     pivot_points = model.pivot_points
     bpy_armature = bpy.data.armatures.new(model.name + ' Nodes')
@@ -11,6 +17,7 @@ def create_armature_object(model, bpy_objects, bone_size):
     bpy.context.scene.objects.link(bpy_object)
     bpy.context.scene.objects.active = bpy_object
     bpy.ops.object.mode_set(mode='EDIT')
+
     node_types = set()
     bone_types = {}
 
@@ -22,6 +29,11 @@ def create_armature_object(model, bpy_objects, bone_size):
         bone.head = node_position
         bone.tail = node_position
         bone.tail[1] += bone_size
+        # if bone_name in bone_types.keys():
+        #     bone_name = bone_name + ".001"
+        #     if bone_name in bone_types.keys():
+        #         bone_name = bone_name + ".002"
+        #     node.node.name = bone_name
         bone_types[bone_name] = node.type
 
     node_types = list(node_types)
@@ -37,7 +49,6 @@ def create_armature_object(model, bpy_objects, bone_size):
     for mesh in bpy_objects:
         mesh.modifiers.new(name='Armature', type='ARMATURE')
         mesh.modifiers['Armature'].object = bpy_object
-
         for vertexGroup in mesh.vertex_groups:
             vertex_group_index = int(vertexGroup.name)
             bone_name = bpy_object.data.edit_bones[vertex_group_index].name
@@ -61,11 +72,15 @@ def create_armature_object(model, bpy_objects, bone_size):
             bone_group.color_set = 'THEME03'
         elif nodeType == 'helper':
             bone_group.color_set = 'THEME01'
+
     for bone in bpy_object.pose.bones:
         bone.rotation_mode = 'XYZ'
         bone.bone_group = bone_groups[bone_types[bone.name]]
+
     for bone in bpy_object.data.bones:
         bone.warcraft_3.nodeType = bone_types[bone.name].upper()
+
     bpy.ops.object.mode_set(mode='OBJECT')
     bpy.context.scene.objects.active = None
+
     return bpy_object

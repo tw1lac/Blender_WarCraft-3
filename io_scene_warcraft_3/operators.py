@@ -1,6 +1,7 @@
 
 import bpy
 
+from io_scene_warcraft_3.mdl_parser.load_mdl import load_mdl
 from io_scene_warcraft_3.mdx_parser.load_mdx import load_mdx
 from io_scene_warcraft_3.classes.MDXImportProperties import MDXImportProperties
 from io_scene_warcraft_3 import utils, constants
@@ -8,9 +9,9 @@ from bpy_extras import io_utils
 
 
 class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
-    bl_idname = 'warcraft_3.import_mdx'
-    bl_label = 'Import *.mdx'
-    bl_description = 'Import *.mdx files (3d models of WarCraft 3)'
+    bl_idname = 'warcraft_3.import_mdl_mdx'
+    bl_label = 'Import *.mdl/*.mdx'
+    bl_description = 'Import *.mdl/*.mdx files (3d models of WarCraft 3)'
     bl_options = {'UNDO'}
 
     filename_ext = '.mdx'
@@ -69,7 +70,10 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
         import_properties.use_custom_fps = self.properties.useCustomFPS
         import_properties.fps = self.properties.animationFPS
         import_properties.calculate_frame_time()
-        load_mdx(import_properties)
+        if ".mdl" in self.filepath:
+            load_mdl(import_properties)
+        else:
+            load_mdx(import_properties)
         return {'FINISHED'}
 
     def invoke(self, context, event):

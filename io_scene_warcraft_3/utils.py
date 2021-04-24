@@ -9,13 +9,7 @@ ACTION_NAME_UNANIMATED = '#UNANIMATED'
 def set_animation(self, context):
     set_animation_name = context.armature.warcraft_3.sequencesList[context.armature.warcraft_3.sequencesListIndex].name
     if len(set_animation_name) and bpy.data.actions.get(set_animation_name, None):
-        armature_object = context.object
-        if armature_object.animation_data is None:
-            armature_object.animation_data_create()
-        set_action = bpy.data.actions[set_animation_name]
-        armature_object.animation_data.action = set_action
-        bpy.context.scene.frame_start = set_action.frame_range[0]
-        bpy.context.scene.frame_end = set_action.frame_range[1]
+        prepare_action(context, set_animation_name)
         for action in bpy.data.actions:
             for bpy_object in bpy.context.scene.objects:
                 set_object_animation_name = set_animation_name + ' ' + bpy_object.name
@@ -24,21 +18,26 @@ def set_animation(self, context):
                         bpy_object.animation_data_create()
                     bpy_object.animation_data.action = action
     else:
-        action = bpy.data.actions.get(ACTION_NAME_UNANIMATED, None)
+        unanimated = ACTION_NAME_UNANIMATED
+        action = bpy.data.actions.get(unanimated, None)
         if action:
-            armature_object = context.object
-            if armature_object.animation_data is None:
-                armature_object.animation_data_create()
-            set_action = bpy.data.actions[ACTION_NAME_UNANIMATED]
-            armature_object.animation_data.action = set_action
-            bpy.context.scene.frame_start = set_action.frame_range[0]
-            bpy.context.scene.frame_end = set_action.frame_range[1]
+            prepare_action(context, unanimated)
             for bpy_object in bpy.context.scene.objects:
-                object_action_name = ACTION_NAME_UNANIMATED + ' ' + bpy_object.name
+                object_action_name = unanimated + ' ' + bpy_object.name
                 if bpy.data.actions.get(object_action_name, None):
                     if bpy_object.animation_data is None:
                         bpy_object.animation_data_create()
                     bpy_object.animation_data.action = bpy.data.actions[object_action_name]
+
+
+def prepare_action(context, action_name):
+    armature_object = context.object
+    if armature_object.animation_data is None:
+        armature_object.animation_data_create()
+    set_action = bpy.data.actions[action_name]
+    armature_object.animation_data.action = set_action
+    bpy.context.scene.frame_start = set_action.frame_range[0]
+    bpy.context.scene.frame_end = set_action.frame_range[1]
 
 
 def set_team_color_property(self, context):

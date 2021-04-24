@@ -1,5 +1,5 @@
+from ..classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 from .. import constants
-from io_scene_warcraft_3.classes.WarCraft3GeosetTransformation import WarCraft3GeosetTransformation
 
 
 def parse_geoset_alpha(r):
