@@ -6,14 +6,14 @@ from .parse_tracks import parse_tracks
 
 
 def parse_events(data, model):
-    dataSize = len(data)
+    data_size = len(data)
     r = binary_reader.Reader(data)
-    while r.offset < dataSize:
+    while r.offset < data_size:
         event = WarCraft3Event()
         event.node = parse_node(r)
-        if r.offset < dataSize:
-            chunkId = r.gets(4)
-            if chunkId == constants.CHUNK_TRACKS:
+        if r.offset < data_size:
+            chunk_id = r.gets(4)
+            if chunk_id == constants.CHUNK_TRACKS:
                 parse_tracks(r)
             else:
                 r.offset -= 4

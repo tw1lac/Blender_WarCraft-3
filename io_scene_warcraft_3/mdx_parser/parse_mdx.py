@@ -17,40 +17,40 @@ from .parse_textures import parse_textures
 from .parse_version import parse_version
 
 
-def parse_mdx(data, importProperties):
-    dataSize = len(data)
+def parse_mdx(data, import_properties):
+    data_size = len(data)
     r = binary_reader.Reader(data)
     r.getid(constants.CHUNK_MDX_MODEL)
     model = WarCraft3Model()
-    while r.offset < dataSize:
-        chunkId = r.getid(constants.SUB_CHUNKS_MDX_MODEL, debug=True)
-        chunkSize = r.getf('<I')[0]
-        chunkData = data[r.offset : r.offset + chunkSize]
-        r.skip(chunkSize)
-        if chunkId == constants.CHUNK_VERSION:
-            parse_version(chunkData)
-        elif chunkId == constants.CHUNK_GEOSET:
-            parse_geosets(chunkData, model)
-        elif chunkId == constants.CHUNK_TEXTURE:
-            parse_textures(chunkData, model)
-        elif chunkId == constants.CHUNK_MATERIAL:
-            parse_materials(chunkData, model)
-        elif chunkId == constants.CHUNK_MODEL:
-            parse_model(chunkData, model)
-        elif chunkId == constants.CHUNK_BONE:
-            parse_bones(chunkData, model)
-        elif chunkId == constants.CHUNK_PIVOT_POINT:
-            parse_pivot_points(chunkData, model)
-        elif chunkId == constants.CHUNK_HELPER:
-            parse_helpers(chunkData, model)
-        elif chunkId == constants.CHUNK_ATTACHMENT:
-            parse_attachments(chunkData, model)
-        elif chunkId == constants.CHUNK_EVENT_OBJECT:
-            parse_events(chunkData, model)
-        elif chunkId == constants.CHUNK_COLLISION_SHAPE:
-            parse_collision_shapes(chunkData, model)
-        elif chunkId == constants.CHUNK_SEQUENCE:
-            parse_sequences(chunkData, model)
-        elif chunkId == constants.CHUNK_GEOSET_ANIMATION:
-            parse_geoset_animations(chunkData, model)
-    load_warcraft_3_model(model, importProperties)
+    while r.offset < data_size:
+        chunk_id = r.getid(constants.SUB_CHUNKS_MDX_MODEL, debug=True)
+        chunk_size = r.getf('<I')[0]
+        chunk_data = data[r.offset: r.offset + chunk_size]
+        r.skip(chunk_size)
+        if chunk_id == constants.CHUNK_VERSION:
+            parse_version(chunk_data)
+        elif chunk_id == constants.CHUNK_GEOSET:
+            parse_geosets(chunk_data, model)
+        elif chunk_id == constants.CHUNK_TEXTURE:
+            parse_textures(chunk_data, model)
+        elif chunk_id == constants.CHUNK_MATERIAL:
+            parse_materials(chunk_data, model)
+        elif chunk_id == constants.CHUNK_MODEL:
+            parse_model(chunk_data, model)
+        elif chunk_id == constants.CHUNK_BONE:
+            parse_bones(chunk_data, model)
+        elif chunk_id == constants.CHUNK_PIVOT_POINT:
+            parse_pivot_points(chunk_data, model)
+        elif chunk_id == constants.CHUNK_HELPER:
+            parse_helpers(chunk_data, model)
+        elif chunk_id == constants.CHUNK_ATTACHMENT:
+            parse_attachments(chunk_data, model)
+        elif chunk_id == constants.CHUNK_EVENT_OBJECT:
+            parse_events(chunk_data, model)
+        elif chunk_id == constants.CHUNK_COLLISION_SHAPE:
+            parse_collision_shapes(chunk_data, model)
+        elif chunk_id == constants.CHUNK_SEQUENCE:
+            parse_sequences(chunk_data, model)
+        elif chunk_id == constants.CHUNK_GEOSET_ANIMATION:
+            parse_geoset_animations(chunk_data, model)
+    load_warcraft_3_model(model, import_properties)

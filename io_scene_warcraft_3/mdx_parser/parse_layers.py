@@ -7,23 +7,23 @@ from .parse_material_texture_id import parse_material_texture_id
 
 def parse_layers(data):
     r = binary_reader.Reader(data)
-    chunkId = r.getid(constants.CHUNK_LAYER)
-    layersCount = r.getf('<I')[0]
+    chunk_id = r.getid(constants.CHUNK_LAYER)
+    layers_count = r.getf('<I')[0]
     layers = []
-    for _ in range(layersCount):
+    for _ in range(layers_count):
         layer = WarCraft3Layer()
-        inclusiveSize = r.offset + r.getf('<I')[0]
-        filterMode = r.getf('<I')[0]
-        shadingFlags = r.getf('<I')[0]
+        inclusive_size = r.offset + r.getf('<I')[0]
+        filter_mode = r.getf('<I')[0]
+        shading_flags = r.getf('<I')[0]
         layer.texture_id = r.getf('<I')[0]
-        textureAnimationId = r.getf('<I')[0]
-        coordId = r.getf('<I')[0]
+        texture_animation_id = r.getf('<I')[0]
+        coord_id = r.getf('<I')[0]
         alpha = r.getf('<f')[0]
-        while r.offset < inclusiveSize:
-            chunkId = r.getid(constants.SUB_CHUNKS_LAYER)
-            if chunkId == constants.CHUNK_MATERIAL_ALPHA:
+        while r.offset < inclusive_size:
+            chunk_id = r.getid(constants.SUB_CHUNKS_LAYER)
+            if chunk_id == constants.CHUNK_MATERIAL_ALPHA:
                 layer.material_alpha = parse_material_alpha(r)
-            elif chunkId == constants.CHUNK_MATERIAL_TEXTURE_ID:
+            elif chunk_id == constants.CHUNK_MATERIAL_TEXTURE_ID:
                 layer.material_texture_id = parse_material_texture_id(r)
         layers.append(layer)
     return layers

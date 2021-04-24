@@ -4,9 +4,9 @@ from .parse_node import parse_node
 
 
 def parse_helpers(data, model):
-    dataSize = len(data)
+    data_size = len(data)
     r = binary_reader.Reader(data)
-    while r.offset < dataSize:
+    while r.offset < data_size:
         helper = WarCraft3Helper()
         helper.node = parse_node(r)
         model.nodes.append(helper)

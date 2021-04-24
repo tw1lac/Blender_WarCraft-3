@@ -9,85 +9,85 @@ def parse_geometry(data):
     mesh = WarCraft3Mesh()
     mesh.name = 'temp'
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_VERTEX_POSITION)
-    vertexCount = r.getf('<I')[0]
-    for _ in range(vertexCount):
-        vertexPositionX, vertexPositionY, vertexPositionZ = r.getf('<3f')
-        mesh.vertices.append((vertexPositionX, vertexPositionY, vertexPositionZ))
+    chunk_id = r.getid(constants.CHUNK_VERTEX_POSITION)
+    vertex_count = r.getf('<I')[0]
+    for _ in range(vertex_count):
+        vertex_position_x, vertex_position_y, vertex_position_z = r.getf('<3f')
+        mesh.vertices.append((vertex_position_x, vertex_position_y, vertex_position_z))
     ############################################################################
     ################################# NOT USED #################################
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_VERTEX_NORMAL)
-    normalsCount = r.getf('<I')[0]
-    for _ in range(normalsCount):
+    chunk_id = r.getid(constants.CHUNK_VERTEX_NORMAL)
+    normals_count = r.getf('<I')[0]
+    for _ in range(normals_count):
         normal = r.getf('<3f')
     ############################################################################
     ################################# NOT USED #################################
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_FACE_TYPE_GROUP)
-    faceTypeGroupsCount = r.getf('<I')[0]
-    for _ in range(faceTypeGroupsCount):
-        faceType = r.getf('<I')[0]
+    chunk_id = r.getid(constants.CHUNK_FACE_TYPE_GROUP)
+    face_type_groups_count = r.getf('<I')[0]
+    for _ in range(face_type_groups_count):
+        face_type = r.getf('<I')[0]
     ############################################################################
     ################################# NOT USED #################################
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_FACE_GROUP)
-    faceGroupCount = r.getf('<I')[0]
-    for _ in range(faceGroupCount):
-        indexesCount = r.getf('<I')[0]
+    chunk_id = r.getid(constants.CHUNK_FACE_GROUP)
+    face_group_count = r.getf('<I')[0]
+    for _ in range(face_group_count):
+        indexes_count = r.getf('<I')[0]
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_FACE)
-    indicesCount = r.getf('<I')[0]
-    if indicesCount % 3 != 0:
-        raise Exception('bad indices (indicesCount % 3 != 0)')
-    for _ in range(indicesCount // 3):
-        vertexIndex1, vertexIndex2, vertexIndex3 = r.getf('<3H')
-        mesh.triangles.append((vertexIndex1, vertexIndex2, vertexIndex3))
+    chunk_id = r.getid(constants.CHUNK_FACE)
+    indices_count = r.getf('<I')[0]
+    if indices_count % 3 != 0:
+        raise Exception('bad indices (indices_count % 3 != 0)')
+    for _ in range(indices_count // 3):
+        vertex_index1, vertex_index2, vertex_index3 = r.getf('<3H')
+        mesh.triangles.append((vertex_index1, vertex_index2, vertex_index3))
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_VERTEX_GROUP)
-    matrixGroupsCount = r.getf('<I')[0]
-    matrixGroups = []
-    for _ in range(matrixGroupsCount):
-        matrixGroup = r.getf('<B')[0]
-        matrixGroups.append(matrixGroup)
+    chunk_id = r.getid(constants.CHUNK_VERTEX_GROUP)
+    matrix_groups_count = r.getf('<I')[0]
+    matrix_groups = []
+    for _ in range(matrix_groups_count):
+        matrix_group = r.getf('<B')[0]
+        matrix_groups.append(matrix_group)
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_MATRIX_GROUP)
-    matrixGroupsSizesCount = r.getf('<I')[0]
-    matrixGroupsSizes = []
-    for _ in range(matrixGroupsSizesCount):
-        matrixGroupSize = r.getf('<I')[0]
-        matrixGroupsSizes.append(matrixGroupSize)
+    chunk_id = r.getid(constants.CHUNK_MATRIX_GROUP)
+    matrix_groups_sizes_count = r.getf('<I')[0]
+    matrix_groups_sizes = []
+    for _ in range(matrix_groups_sizes_count):
+        matrix_group_size = r.getf('<I')[0]
+        matrix_groups_sizes.append(matrix_group_size)
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_MATRIX_INDEX)
-    matrixIndicesCount = r.getf('<I')[0]
-    matrixIndices = []
-    for _ in range(matrixIndicesCount):
-        matrixIndex = r.getf('<I')[0]
-        matrixIndices.append(matrixIndex)
+    chunk_id = r.getid(constants.CHUNK_MATRIX_INDEX)
+    matrix_indices_count = r.getf('<I')[0]
+    matrix_indices = []
+    for _ in range(matrix_indices_count):
+        matrix_index = r.getf('<I')[0]
+        matrix_indices.append(matrix_index)
     ############################################################################
-    vertexGroups, vertexGroupsIds = get_vertex_groups(matrixGroups, matrixGroupsSizes, matrixIndices)
-    mesh.vertex_groups = vertexGroups
-    mesh.vertex_groups_ids = vertexGroupsIds
+    vertex_groups, vertex_groups_ids = get_vertex_groups(matrix_groups, matrix_groups_sizes, matrix_indices)
+    mesh.vertex_groups = vertex_groups
+    mesh.vertex_groups_ids = vertex_groups_ids
     mesh.material_id = r.getf('<I')[0]
-    selectionGroup = r.getf('<I')[0]
-    selectionFlags = r.getf('<I')[0]
-    boundsRadius = r.getf('<f')[0]
-    minimumExtent = r.getf('<3f')
-    maximumExtent = r.getf('<3f')
-    extentsCount = r.getf('<I')[0]
-    for _ in range(extentsCount):
-        boundsRadius = r.getf('<f')[0]
-        minimumExtent = r.getf('<3f')
-        maximumExtent = r.getf('<3f')
+    selection_group = r.getf('<I')[0]
+    selection_flags = r.getf('<I')[0]
+    bounds_radius = r.getf('<f')[0]
+    minimum_extent = r.getf('<3f')
+    maximum_extent = r.getf('<3f')
+    extents_count = r.getf('<I')[0]
+    for _ in range(extents_count):
+        bounds_radius = r.getf('<f')[0]
+        minimum_extent = r.getf('<3f')
+        maximum_extent = r.getf('<3f')
     ############################################################################
     ################################# NOT USED #################################
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
-    textureVertexGroupCount = r.getf('<I')[0]
+    chunk_id = r.getid(constants.CHUNK_TEXTURE_VERTEX_GROUP)
+    texture_vertex_group_count = r.getf('<I')[0]
     ############################################################################
-    chunkId = r.getid(constants.CHUNK_VERTEX_TEXTURE_POSITION)
-    vertexTexturePositionCount = r.getf('<I')[0]
-    for _ in range(vertexTexturePositionCount):
+    chunk_id = r.getid(constants.CHUNK_VERTEX_TEXTURE_POSITION)
+    vertex_texture_position_count = r.getf('<I')[0]
+    for _ in range(vertex_texture_position_count):
         u, v = r.getf('<2f')
         mesh.uvs.append((u, 1 - v))
     ############################################################################

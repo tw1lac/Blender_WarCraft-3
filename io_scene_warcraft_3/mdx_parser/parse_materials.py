@@ -13,7 +13,7 @@ def parse_materials(data, model):
         flags = r.getf('<I')[0]
         layerChunkDataSize = inclusiveSize - 12
         if layerChunkDataSize > 0:
-            layerChunkData = data[r.offset : r.offset + layerChunkDataSize]
+            layerChunkData = data[r.offset: r.offset + layerChunkDataSize]
             r.skip(layerChunkDataSize)
             material.layers = parse_layers(layerChunkData)
         model.materials.append(material)

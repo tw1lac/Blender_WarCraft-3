@@ -52,9 +52,9 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
     def draw(self, context):
         layout = self.layout
         split = layout.split(percentage=0.9)
-        subSplit = split.split(percentage=0.5)
-        subSplit.label('Team Color:')
-        subSplit.prop(self.properties, 'setTeamColor', text='')
+        sub_split = split.split(percentage=0.5)
+        sub_split.label('Team Color:')
+        sub_split.prop(self.properties, 'setTeamColor', text='')
         split.prop(self.properties, 'teamColor', text='')
         layout.prop(self.properties, 'boneSize')
         layout.prop(self.properties, 'useCustomFPS')
@@ -62,14 +62,14 @@ class WarCraft3OperatorImportMDX(bpy.types.Operator, io_utils.ImportHelper):
             layout.prop(self.properties, 'animationFPS')
 
     def execute(self, context):
-        importProperties = MDXImportProperties()
-        importProperties.mdx_file_path = self.properties.filepath
-        importProperties.set_team_color = self.properties.setTeamColor
-        importProperties.bone_size = self.properties.boneSize
-        importProperties.use_custom_fps = self.properties.useCustomFPS
-        importProperties.fps = self.properties.animationFPS
-        importProperties.calculate_frame_time()
-        load_mdx(importProperties)
+        import_properties = MDXImportProperties()
+        import_properties.mdx_file_path = self.properties.filepath
+        import_properties.set_team_color = self.properties.setTeamColor
+        import_properties.bone_size = self.properties.boneSize
+        import_properties.use_custom_fps = self.properties.useCustomFPS
+        import_properties.fps = self.properties.animationFPS
+        import_properties.calculate_frame_time()
+        load_mdx(import_properties)
         return {'FINISHED'}
 
     def invoke(self, context, event):
@@ -111,26 +111,26 @@ class WarCraft3OperatorUpdateBoneSettings(bpy.types.Operator):
     bl_options = {'UNDO'}
 
     def execute(self, context):
-        object = context.object
-        for bone in object.data.bones:
-            nodeType = bone.warcraft_3.nodeType
-            boneGroup = object.pose.bone_groups.get(nodeType.lower() + 's', None)
-            if not boneGroup:
-                if nodeType in {'BONE', 'ATTACHMENT', 'COLLISION_SHAPE', 'EVENT', 'HELPER'}:
+        bpy_object = context.object
+        for bone in bpy_object.data.bones:
+            node_type = bone.warcraft_3.nodeType
+            bone_group = bpy_object.pose.bone_groups.get(node_type.lower() + 's', None)
+            if not bone_group:
+                if node_type in {'BONE', 'ATTACHMENT', 'COLLISION_SHAPE', 'EVENT', 'HELPER'}:
                     bpy.ops.pose.group_add()
-                    boneGroup = object.pose.bone_groups.active
-                    boneGroup.name = nodeType.lower() + 's'
-                    if nodeType == 'BONE':
-                        boneGroup.color_set = 'THEME04'
-                    elif nodeType == 'ATTACHMENT':
-                        boneGroup.color_set = 'THEME09'
-                    elif nodeType == 'COLLISION_SHAPE':
-                        boneGroup.color_set = 'THEME02'
-                    elif nodeType == 'EVENT':
-                        boneGroup.color_set = 'THEME03'
-                    elif nodeType == 'HELPER':
-                        boneGroup.color_set = 'THEME01'
+                    bone_group = bpy_object.pose.bone_groups.active
+                    bone_group.name = node_type.lower() + 's'
+                    if node_type == 'BONE':
+                        bone_group.color_set = 'THEME04'
+                    elif node_type == 'ATTACHMENT':
+                        bone_group.color_set = 'THEME09'
+                    elif node_type == 'COLLISION_SHAPE':
+                        bone_group.color_set = 'THEME02'
+                    elif node_type == 'EVENT':
+                        bone_group.color_set = 'THEME03'
+                    elif node_type == 'HELPER':
+                        bone_group.color_set = 'THEME01'
                 else:
-                    boneGroup = None
-            object.pose.bones[bone.name].bone_group = boneGroup
+                    bone_group = None
+            bpy_object.pose.bones[bone.name].bone_group = bone_group
         return {'FINISHED'}

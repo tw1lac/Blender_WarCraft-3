@@ -4,8 +4,8 @@ from . import binary_reader
 def parse_model(data, model):
     r = binary_reader.Reader(data)
     model.name = r.gets(80)
-    animationFileName = r.gets(260)
-    boundsRadius = r.getf('<f')[0]
-    minimumExtent = r.getf('<3f')
-    maximumExtent = r.getf('<3f')
-    blendTime = r.getf('<I')[0]
+    animation_file_name = r.gets(260)
+    bounds_radius = r.getf('<f')[0]
+    minimum_extent = r.getf('<3f')
+    maximum_extent = r.getf('<3f')
+    blend_time = r.getf('<I')[0]

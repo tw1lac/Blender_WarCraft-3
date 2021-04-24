@@ -1,71 +1,71 @@
 import bpy
 
 
-def create_armature_object(model, bpyObjects, boneSize):
+def create_armature_object(model, bpy_objects, bone_size):
     nodes = model.nodes
-    pivotPoints = model.pivot_points
-    bpyArmature = bpy.data.armatures.new(model.name + ' Nodes')
-    bpyArmature.draw_type = 'STICK'
-    bpyObject = bpy.data.objects.new(model.name + ' Nodes', bpyArmature)
-    bpyObject.show_x_ray = True
-    bpy.context.scene.objects.link(bpyObject)
-    bpy.context.scene.objects.active = bpyObject
+    pivot_points = model.pivot_points
+    bpy_armature = bpy.data.armatures.new(model.name + ' Nodes')
+    bpy_armature.draw_type = 'STICK'
+    bpy_object = bpy.data.objects.new(model.name + ' Nodes', bpy_armature)
+    bpy_object.show_x_ray = True
+    bpy.context.scene.objects.link(bpy_object)
+    bpy.context.scene.objects.active = bpy_object
     bpy.ops.object.mode_set(mode='EDIT')
-    nodeTypes = set()
-    boneTypes = {}
+    node_types = set()
+    bone_types = {}
 
     for indexNode, node in enumerate(nodes):
-        nodePosition = pivotPoints[indexNode]
-        boneName = node.node.name
-        nodeTypes.add(node.type)
-        bone = bpyArmature.edit_bones.new(boneName)
-        bone.head = nodePosition
-        bone.tail = nodePosition
-        bone.tail[1] += boneSize
-        boneTypes[boneName] = node.type
+        node_position = pivot_points[indexNode]
+        bone_name = node.node.name
+        node_types.add(node.type)
+        bone = bpy_armature.edit_bones.new(bone_name)
+        bone.head = node_position
+        bone.tail = node_position
+        bone.tail[1] += bone_size
+        bone_types[bone_name] = node.type
 
-    nodeTypes = list(nodeTypes)
-    nodeTypes.sort()
+    node_types = list(node_types)
+    node_types.sort()
 
     for indexNode, node in enumerate(nodes):
-        bone = bpyObject.data.edit_bones[indexNode]
+        bone = bpy_object.data.edit_bones[indexNode]
         if node.node.parent:
-            parent = bpyObject.data.edit_bones[node.node.parent]
+            parent = bpy_object.data.edit_bones[node.node.parent]
             bone.parent = parent
             # bone.use_connect = True
 
-    for mesh in bpyObjects:
+    for mesh in bpy_objects:
         mesh.modifiers.new(name='Armature', type='ARMATURE')
-        mesh.modifiers['Armature'].object = bpyObject
+        mesh.modifiers['Armature'].object = bpy_object
 
         for vertexGroup in mesh.vertex_groups:
-            vertexGroupIndex = int(vertexGroup.name)
-            boneName = bpyObject.data.edit_bones[vertexGroupIndex].name
-            vertexGroup.name = boneName
+            vertex_group_index = int(vertexGroup.name)
+            bone_name = bpy_object.data.edit_bones[vertex_group_index].name
+            vertexGroup.name = bone_name
 
     bpy.ops.object.mode_set(mode='POSE')
-    boneGroups = {}
+    bone_groups = {}
 
-    for nodeType in nodeTypes:
+    for nodeType in node_types:
         bpy.ops.pose.group_add()
-        boneGroup = bpyObject.pose.bone_groups.active
-        boneGroup.name = nodeType + 's'
-        boneGroups[nodeType] = boneGroup
+        bone_group = bpy_object.pose.bone_groups.active
+        bone_group.name = nodeType + 's'
+        bone_groups[nodeType] = bone_group
         if nodeType == 'bone':
-            boneGroup.color_set = 'THEME04'
+            bone_group.color_set = 'THEME04'
         elif nodeType == 'attachment':
-            boneGroup.color_set = 'THEME09'
+            bone_group.color_set = 'THEME09'
         elif nodeType == 'collision_shape':
-            boneGroup.color_set = 'THEME02'
+            bone_group.color_set = 'THEME02'
         elif nodeType == 'event':
-            boneGroup.color_set = 'THEME03'
+            bone_group.color_set = 'THEME03'
         elif nodeType == 'helper':
-            boneGroup.color_set = 'THEME01'
-    for bone in bpyObject.pose.bones:
+            bone_group.color_set = 'THEME01'
+    for bone in bpy_object.pose.bones:
         bone.rotation_mode = 'XYZ'
-        bone.bone_group = boneGroups[boneTypes[bone.name]]
-    for bone in bpyObject.data.bones:
-        bone.warcraft_3.nodeType = boneTypes[bone.name].upper()
+        bone.bone_group = bone_groups[bone_types[bone.name]]
+    for bone in bpy_object.data.bones:
+        bone.warcraft_3.nodeType = bone_types[bone.name].upper()
     bpy.ops.object.mode_set(mode='OBJECT')
     bpy.context.scene.objects.active = None
-    return bpyObject
+    return bpy_object
